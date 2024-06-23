@@ -43,6 +43,9 @@ The Gymnastics Management WordPress plugin is designed to help manage classes, a
 
 ### Athlete Management
 
+![parent-management-wip](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/6766ff1e-7df6-4680-973a-70dcbafb9342)
+**Work in Progress**
+
 1. Navigate to **Gym Management > Parents** to manage parents and their athletes.
 2. Add new parents and their athletes.
 3. Assign athletes to classes.
