@@ -35,6 +35,8 @@ The Gymnastics Management WordPress plugin is designed to help manage classes, a
 
 ### Class Management
 
+![class-managment-backend](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/3d4488c4-98d6-4ca1-94de-9c7563c94174)
+
 1. Navigate to **Gym Management > Classes** to manage classes.
 2. Select a level to view and manage classes under that level.
 3. Add new classes, assign athletes, and view schedules.
