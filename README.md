@@ -29,9 +29,9 @@ The Gymnastics Management WordPress plugin is designed to help manage classes, a
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 3. Navigate to the Gymnastics Management section in the WordPress admin menu to begin managing classes, athletes, and coaches.
 
-## Usage
-
 ---
+
+## Usage
 
 ### Class Management
 
