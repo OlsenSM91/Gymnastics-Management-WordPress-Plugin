@@ -35,7 +35,8 @@ The Gymnastics Management WordPress plugin is designed to help manage classes, a
 
 ### Class Management
 
-![class-managment-backend](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/3d4488c4-98d6-4ca1-94de-9c7563c94174)
+![class-management1](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/4f1fddc3-4ca7-4642-9ed0-bcb7e03e5ee5)
+![class-management2](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/b92dbf8a-f4ab-45e3-86ac-2c18e57f4f1d)
 
 1. Navigate to **Gym Management > Classes** to manage classes.
 2. Select a level to view and manage classes under that level.
@@ -43,14 +44,15 @@ The Gymnastics Management WordPress plugin is designed to help manage classes, a
 
 ### Athlete Management
 
-![parent-management-wip](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/bfb8e7aa-0836-4925-8f51-f0ca5079fe6e)
-_Work in Progress_
+![athlete-management](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/5c08c226-1bd4-4746-8260-5ba88cf7a7d4)
 
 1. Navigate to **Gym Management > Parents** to manage parents and their athletes.
 2. Add new parents and their athletes.
 3. Assign athletes to classes.
 
 ### Coach Management
+
+![coach-management](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/f0035c95-d37c-42b7-b104-8f0d091e8401)
 
 1. Navigate to **Gym Management > Coaches** to manage coaches.
 2. Add new coaches and view coach details.
@@ -59,21 +61,35 @@ _Work in Progress_
 
 ## TODO
 
-1. **Complete classes.php**
-   - Add an edit function for classes.
+1. **classes.php**
+   - Fix bug when assinging athlete/coach refreshes to main page instead of the existing class
    - Continue bug testing to ensure stability.
 
-2. **Stylize Coach Management**
-   - Enhance the UI for coach management.
-   - Add the ability to edit coach details.
+2. **coaches.php**
+   - Further styling/UI details
+   - Integrate as WordPress user "Coaches Role" which allows access to Gym Management, but that's it
 
-3. **Revamp Parent Management Page**
-   - Transform the Parent Management page into an Athlete Management page.
-   - Improve the UI for better usability.
+3. **parents.php**
+   - Although it's still called `parents.php` it has been rebranded as Athlete Management
+   - This page has proved difficult to work on. I finally have it functioning again so main reason for this commit update of early development
+   - Functionality mostly complete, still need to add a Class view to it (previous fail was trying to have the ability to delete/assign class, may attempt again)
 
-4. **Develop Parent Portal**
+5. **Develop Parent Portal**
    - Begin development of a parent portal once the backend is complete.
    - Provide features for parents to view athlete schedules, class assignments, and other relevant information.
+  
+6. **Create Payment/Invoicing Features**
+   - Integrate payment gateway such as stripe/woocommerce
+   - Ability to invoice parent and collect payment online, in person or Zelle
+   - Balance Tracked in Parent Profile and they're able to see it from their portal
+     
+8. **Create Agreements module**
+   - Create agreements/waivers for parents to sign on their phone or computer
+   - Add a true/false value to the parent database for any agreements completed
+     
+10. **Create Waiting List module**
+    - When classes are out of slots, auto waiting list
+    - Coach notification of waiting list
 
 ---
 
