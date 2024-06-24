@@ -29,6 +29,20 @@ function gm_deactivate_plugin() {
 }
 register_deactivation_hook(__FILE__, 'gm_deactivate_plugin');
 
+// Function to create the custom role for coaches
+function gm_add_coach_role() {
+    add_role(
+        'coach',
+        __('Coach'),
+        array(
+            'read'         => true,  // True allows this capability
+            'edit_posts'   => false,
+            'delete_posts' => false,
+        )
+    );
+}
+add_action('init', 'gm_add_coach_role');
+
 // Register custom post types and taxonomies
 function gm_register_custom_post_types() {
     // Coaches
