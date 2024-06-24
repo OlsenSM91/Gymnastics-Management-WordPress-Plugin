@@ -210,6 +210,7 @@ function gm_add_coach() {
         $phone = sanitize_text_field($_POST['phone']);
         $email = sanitize_email($_POST['email']);
 
+        // Create the coach post
         $coach_id = wp_insert_post(array(
             'post_title' => $first_name . ' ' . $last_name,
             'post_type' => 'gm_coach',
@@ -219,9 +220,25 @@ function gm_add_coach() {
                 '_gm_coach_last_name' => $last_name,
                 '_gm_coach_phone' => $phone,
                 '_gm_coach_email' => $email,
-                '_gm_coach_id' => uniqid('coach_', true) // Generate unique ID for the coach
             ),
         ));
+
+        // Create the WordPress user
+        $user_id = wp_create_user($email, wp_generate_password(), $email);
+        if (!is_wp_error($user_id)) {
+            wp_update_user(array(
+                'ID' => $user_id,
+                'role' => 'coach',
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+            ));
+
+            // Send email with login details
+            wp_send_new_user_notifications($user_id, 'user');
+
+            // Update the coach post with the user ID
+            update_post_meta($coach_id, '_gm_coach_user_id', $user_id);
+        }
     }
 
     wp_redirect(admin_url('admin.php?page=gym-coaches'));
@@ -251,6 +268,17 @@ function gm_edit_coach() {
         update_post_meta($coach_id, '_gm_coach_last_name', $last_name);
         update_post_meta($coach_id, '_gm_coach_phone', $phone);
         update_post_meta($coach_id, '_gm_coach_email', $email);
+
+        // Update the WordPress user associated with the coach
+        $user_id = get_post_meta($coach_id, '_gm_coach_user_id', true);
+        if ($user_id) {
+            wp_update_user(array(
+                'ID' => $user_id,
+                'user_email' => $email,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+            ));
+        }
     }
 
     wp_redirect(admin_url('admin.php?page=gym-coaches'));
@@ -266,6 +294,14 @@ function gm_delete_coach() {
 
     if (isset($_POST['coach_id']) && check_admin_referer('delete_coach_nonce')) {
         $coach_id = intval($_POST['coach_id']);
+
+        // Delete the WordPress user associated with the coach
+        $user_id = get_post_meta($coach_id, '_gm_coach_user_id', true);
+        if ($user_id) {
+            wp_delete_user($user_id);
+        }
+
+        // Delete the coach post
         wp_delete_post($coach_id, true);
         echo 'success';
     } else {
