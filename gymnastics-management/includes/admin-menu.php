@@ -3,7 +3,7 @@
 function gm_add_admin_menu() {
     add_menu_page('Gymnastics Management', 'Gym Management', 'manage_options', 'gym-management', 'gm_admin_page', 'dashicons-groups', 6);
     add_submenu_page('gym-management', 'Coaches', 'Coaches', 'manage_options', 'gym-coaches', 'gm_coaches_page');
-    add_submenu_page('gym-management', 'Parents', 'Parents', 'manage_options', 'gym-parents', 'gm_parents_page');
+    add_submenu_page('gym-management', 'Parents', 'Athletes', 'manage_options', 'gym-parents', 'gm_parents_page');
     add_submenu_page('gym-management', 'Levels', 'Levels', 'manage_options', 'gym-levels', 'gm_levels_page');
     add_submenu_page('gym-management', 'Classes', 'Classes', 'manage_options', 'gym-classes', 'gm_classes_page');
 }
