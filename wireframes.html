@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gymnastics Management Plugin - Wireframes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .wireframe-section {
+            background: white;
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .wireframe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .wireframe {
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fafbfc;
+        }
+        
+        .wireframe-title {
+            background: #4a90e2;
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .wireframe-content {
+            padding: 20px;
+            min-height: 500px;
+        }
+        
+        /* Wireframe Elements */
+        .header-bar {
+            background: #ddd;
+            height: 50px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            font-weight: bold;
+        }
+        
+        .sidebar {
+            width: 200px;
+            background: #f0f0f0;
+            min-height: 400px;
+            float: left;
+            margin-right: 20px;
+            border-radius: 4px;
+            padding: 15px;
+        }
+        
+        .main-content {
+            background: #fff;
+            min-height: 400px;
+            margin-left: 220px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .nav-item {
+            background: #e0e0e0;
+            height: 35px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 14px;
+        }
+        
+        .nav-item.active {
+            background: #4a90e2;
+            color: white;
+        }
+        
+        .dashboard-tile {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            height: 120px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-tile:hover {
+            border-color: #4a90e2;
+            background: #e3f2fd;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            background: #e9ecef;
+            height: 20px;
+            width: 100px;
+            margin-bottom: 8px;
+            border-radius: 3px;
+        }
+        
+        .form-input {
+            background: #fff;
+            border: 1px solid #ccc;
+            height: 40px;
+            width: 100%;
+            border-radius: 4px;
+        }
+        
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        
+        .mobile-wireframe {
+            max-width: 375px;
+            margin: 0 auto;
+        }
+        
+        .mobile-header {
+            background: #4a90e2;
+            color: white;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .mobile-nav {
+            background: #f8f9fa;
+            height: 50px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        
+        .nav-icon {
+            width: 30px;
+            height: 30px;
+            background: #ddd;
+            border-radius: 50%;
+        }
+        
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        
+        .schedule-day {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        
+        .schedule-day.has-class {
+            background: #e3f2fd;
+            border-color: #4a90e2;
+        }
+        
+        .notification-bar {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 40px; color: #333; font-size: 36px;">
+            Gymnastics Management Plugin - Interface Wireframes
+        </h1>
+        
+        <!-- ADMIN BACKEND WIREFRAMES -->
+        <div class="wireframe-section">
+            <div class="section-header">
+                🔧 Admin Panel Backend (WordPress Dashboard)
+            </div>
+            <div class="wireframe-grid">
+                
+                <!-- Admin Dashboard -->
+                <div class="wireframe">
+                    <div class="wireframe-title">Main Dashboard</div>
+                    <div class="wireframe-content">
+                        <div class="header-bar">🏅 Gymnastics Management Dashboard</div>
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div style="font-size: 24px; color: #4a90e2;">127</div>
+                                <div>Active Athletes</div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 24px; color: #28a745;">23</div>
+                                <div>Classes Running</div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 24px; color: #ffc107;">$12,450</div>
+                                <div>Monthly Revenue</div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 24px; color: #dc3545;">8</div>
+                                <div>Pending Payments</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="dashboard-tile">👥 Manage Athletes</div>
+                            <div class="dashboard-tile">🏃‍♂️ Manage Coaches</div>
+                            <div class="dashboard-tile">📚 Manage Classes</div>
+                            <div class="dashboard-tile">💰 Billing & Payments</div>
+                            <div class="dashboard-tile">📅 Schedule Manager</div>
+                            <div class="dashboard-tile">📊 Reports & Analytics</div>
+                        </div>
+                        
+                        <div class="notification-bar">
+                            ⚠️ 3 classes are near capacity. Consider adding to waitlist.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Athlete Management -->
+                <div class="wireframe">
+                    <div class="wireframe-title">Athlete Management</div>
+                    <div class="wireframe-content">
+                        <div class="header-bar">
+                            👥 Athletes Management
+                            <div style="margin-left: auto;">
+                                <button class="btn btn-primary">+ Add Athlete</button>
+                                <button class="btn">Import CSV</button>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <input type="text" placeholder="🔍 Search athletes..." style="width: 300px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <select style="margin-left: 10px; padding: 10px;">
+                                <option>All Levels</option>
+                                <option>Beginner</option>
+                                <option>Intermediate</option>
+                                <option>Advanced</option>
+                            </select>
+                        </div>
+                        
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Level</th>
+                                    <th>Parent</th>
+                                    <th>Classes</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Emma Johnson</td>
+                                    <td>8</td>
+                                    <td>Beginner</td>
+                                    <td>Sarah Johnson</td>
+                                    <td>2</td>
+                                    <td>
+                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">Edit</button>
+                                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mia Rodriguez</td>
+                                    <td>10</td>
+                                    <td>Intermediate</td>
+                                    <td>Carlos Rodriguez</td>
+                                    <td>3</td>
+                                    <td>
+                                        <button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">Edit</button>
+                                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Class Scheduling -->
+                <div class="wireframe">
+                    <div class="wireframe-title">Class Scheduling</div>
+                    <div class="wireframe-content">
+                        <div class="header-bar">
+                            📅 Class Schedule Manager
+                            <div style="margin-left: auto;">
+                                <button class="btn btn-primary">+ New Class</button>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <select style="padding: 10px; margin-right: 10px;">
+                                <option>All Levels</option>
+                                <option>Beginner Classes</option>
+                                <option>Intermediate Classes</option>
+                                <option>Advanced Classes</option>
+                            </select>
+                            <select style="padding: 10px;">
+                                <option>This Week</option>
+                                <option>Next Week</option>
+                                <option>This Month</option>
+                            </select>
+                        </div>
+                        
+                        <div class="schedule-grid">
+                            <div style="font-weight: bold;">Mon</div>
+                            <div style="font-weight: bold;">Tue</div>
+                            <div style="font-weight: bold;">Wed</div>
+                            <div style="font-weight: bold;">Thu</div>
+                            <div style="font-weight: bold;">Fri</div>
+                            <div style="font-weight: bold;">Sat</div>
+                            <div style="font-weight: bold;">Sun</div>
+                            
+                            <div class="schedule-day has-class">
+                                <div style="font-size: 12px; text-align: center;">
+                                    Beginner<br>4:00 PM
+                                </div>
+                            </div>
+                            <div class="schedule-day"></div>
+                            <div class="schedule-day has-class">
+                                <div style="font-size: 12px; text-align: center;">
+                                    Advanced<br>5:30 PM
+                                </div>
+                            </div>
+                            <div class="schedule-day has-class">
+                                <div style="font-size: 12px; text-align: center;">
+                                    Intermediate<br>4:30 PM
+                                </div>
+                            </div>
+                            <div class="schedule-day"></div>
+                            <div class="schedule-day has-class">
+                                <div style="font-size: 12px; text-align: center;">
+                                    All Levels<br>10:00 AM
+                                </div>
+                            </div>
+                            <div class="schedule-day"></div>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <h4>Today's Classes</h4>
+                            <div class="card">
+                                <strong>Beginner Gymnastics - 4:00 PM</strong><br>
+                                Coach: Sarah Miller | Enrolled: 12/15 | Waitlist: 3
+                            </div>
+                            <div class="card">
+                                <strong>Advanced Tumbling - 5:30 PM</strong><br>
+                                Coach: Mike Johnson | Enrolled: 8/10 | Waitlist: 0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Billing Dashboard -->
+                <div class="wireframe">
+                    <div class="wireframe-title">Billing & Payments</div>
+                    <div class="wireframe-content">
+                        <div class="header-bar">
+                            💰 Billing Dashboard
+                            <div style="margin-left: auto;">
+                                <button class="btn btn-primary">Generate Invoices</button>
+                                <button class="btn">Payment Report</button>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div style="font-size: 20px; color: #28a745;">$18,750</div>
+                                <div>Revenue This Month</div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 20px; color: #dc3545;">$2,340</div>
+                                <div>Outstanding Balance</div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 20px; color: #ffc107;">23</div>
+                                <div>Pending Payments</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <h4>Recent Transactions</h4>
+                        </div>
+                        
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Family</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Johnson Family</td>
+                                    <td>$150.00</td>
+                                    <td><span style="color: #28a745;">✓ Paid</span></td>
+                                    <td>Dec 1, 2024</td>
+                                    <td><button class="btn btn-primary" style="padding: 5px 10px; font-size: 12px;">View</button></td>
+                                </tr>
+                          
