@@ -12,24 +12,21 @@ if (!defined('ABSPATH')) {
 define("WSM_PLUGIN_DIR", plugin_dir_path(__FILE__));
 define("WSM_PLUGIN_URL", plugin_dir_url(__FILE__));
 
-// Include necessary files
-include_once plugin_dir_path(__FILE__) . 'admin/controllers/admin-menu.php';
-include_once plugin_dir_path(__FILE__) . 'admin/controllers/coaches.php';
-include_once plugin_dir_path(__FILE__) . 'admin/controllers/parents.php';
-include_once plugin_dir_path(__FILE__) . 'admin/controllers/levels.php';
-include_once plugin_dir_path(__FILE__) . 'admin/controllers/classes.php';
+// Autoloader and core classes
+require_once WSM_PLUGIN_DIR . 'core/class-gm-loader.php';
+require_once WSM_PLUGIN_DIR . 'core/class-gm-activator.php';
+require_once WSM_PLUGIN_DIR . 'core/class-gm-deactivator.php';
+require_once WSM_PLUGIN_DIR . 'core/class-gm-plugin.php';
 
-// Activation hook
-function gm_activate_plugin() {
-    // Code to run when the plugin is activated
-}
-register_activation_hook(__FILE__, 'gm_activate_plugin');
+use WSM\Core\GM_Loader;
+use WSM\Core\GM_Activator;
+use WSM\Core\GM_Deactivator;
+use WSM\Core\GM_Plugin;
 
-// Deactivation hook
-function gm_deactivate_plugin() {
-    // Code to run when the plugin is deactivated
-}
-register_deactivation_hook(__FILE__, 'gm_deactivate_plugin');
+GM_Loader::register();
+
+register_activation_hook(__FILE__, array('WSM\\Core\\GM_Activator', 'activate'));
+register_deactivation_hook(__FILE__, array('WSM\\Core\\GM_Deactivator', 'deactivate'));
 
 // Function to create the custom role for coaches
 function gm_add_coach_role() {
@@ -161,4 +158,7 @@ function gm_register_custom_post_types() {
     register_taxonomy('gm_level', array('gm_class'), $level_args);
 }
 add_action('init', 'gm_register_custom_post_types');
+
+// Run plugin
+GM_Plugin::instance()->run();
 ?>
