@@ -140,6 +140,64 @@ function gm_register_custom_post_types() {
 
     register_post_type('gm_class', $class_args);
 
+    // Individual schedule instances
+    $schedule_labels = array(
+        'name'               => 'Schedules',
+        'singular_name'      => 'Schedule',
+        'menu_name'          => 'Schedules',
+        'name_admin_bar'     => 'Schedule',
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New Schedule',
+        'new_item'           => 'New Schedule',
+        'edit_item'          => 'Edit Schedule',
+        'view_item'          => 'View Schedule',
+        'all_items'          => 'All Schedules',
+        'search_items'       => 'Search Schedules',
+        'parent_item_colon'  => 'Parent Schedules:',
+        'not_found'          => 'No schedules found.',
+        'not_found_in_trash' => 'No schedules found in Trash.'
+    );
+
+    $schedule_args = array(
+        'labels'          => $schedule_labels,
+        'public'          => false,
+        'show_ui'         => true,
+        'has_archive'     => false,
+        'supports'        => array('title', 'editor', 'custom-fields'),
+        'capability_type' => 'post',
+        'rewrite'         => false
+    );
+
+    register_post_type('gm_schedule', $schedule_args);
+
+    // Recital events for education centers
+    $recital_args = array(
+        'labels'          => array(
+            'name' => 'Recitals',
+            'singular_name' => 'Recital'
+        ),
+        'public'          => false,
+        'show_ui'         => true,
+        'supports'        => array('title', 'editor', 'custom-fields'),
+        'capability_type' => 'post',
+        'rewrite'         => false
+    );
+    register_post_type('gm_recital', $recital_args);
+
+    // Messages sent to parents
+    $message_args = array(
+        'labels'          => array(
+            'name' => 'Parent Messages',
+            'singular_name' => 'Parent Message'
+        ),
+        'public'          => false,
+        'show_ui'         => true,
+        'supports'        => array('title', 'editor'),
+        'capability_type' => 'post',
+        'rewrite'         => false
+    );
+    register_post_type('gm_parent_message', $message_args);
+
     // Levels (as a custom taxonomy)
     $level_labels = array(
         'name' => 'Levels',
