@@ -1,25 +1,25 @@
 <?php
-function gm_parents_page() {
+function wsm_families_page() {
     global $wpdb;
 
-    // Handle adding a new parent
-    if (isset($_POST['action']) && $_POST['action'] === 'add_parent') {
+    // Handle adding a new family
+    if (isset($_POST['action']) && $_POST['action'] === 'add_family') {
         $first_name = sanitize_text_field($_POST['first_name']);
         $last_name = sanitize_text_field($_POST['last_name']);
         $address = sanitize_text_field($_POST['address']);
         $phone = sanitize_text_field($_POST['phone']);
         $email = sanitize_email($_POST['email']);
 
-        $parent_id = wp_insert_post(array(
+        $family_id = wp_insert_post(array(
             'post_title' => $first_name . ' ' . $last_name,
-            'post_type' => 'gm_parent',
+            'post_type' => 'wsm_family',
             'post_status' => 'publish',
             'meta_input' => array(
-                '_gm_parent_first_name' => $first_name,
-                '_gm_parent_last_name' => $last_name,
-                '_gm_parent_address' => $address,
-                '_gm_parent_phone' => $phone,
-                '_gm_parent_email' => $email,
+                '_wsm_family_first_name' => $first_name,
+                '_wsm_family_last_name' => $last_name,
+                '_wsm_family_address' => $address,
+                '_wsm_family_phone' => $phone,
+                '_wsm_family_email' => $email,
             ),
         ));
     }
@@ -32,9 +32,9 @@ function gm_parents_page() {
         $athlete_dob = sanitize_text_field($_POST['athlete_dob']);
         $athlete_allergies = isset($_POST['athlete_allergies']) ? 'yes' : 'no';
         $athlete_medical_info = sanitize_textarea_field($_POST['athlete_medical_info']);
-        $parent_id = intval($_POST['parent_id']);
+        $family_id = intval($_POST['family_id']);
 
-        $athletes = get_post_meta($parent_id, '_gm_parent_athletes', true);
+        $athletes = get_post_meta($family_id, '_wsm_family_athletes', true);
         if (!$athletes) {
             $athletes = array();
         }
@@ -48,19 +48,19 @@ function gm_parents_page() {
             'allergies' => $athlete_allergies,
             'medical_info' => $athlete_medical_info,
         );
-        update_post_meta($parent_id, '_gm_parent_athletes', $athletes);
+        update_post_meta($family_id, '_wsm_family_athletes', $athletes);
     }
 
-    // Handle deleting a parent
-    if (isset($_GET['delete_parent'])) {
-        $parent_id = intval($_GET['delete_parent']);
-        wp_delete_post($parent_id);
-        echo '<meta http-equiv="refresh" content="0; url=?page=gym-parents">';
+    // Handle deleting a family
+    if (isset($_GET['delete_family'])) {
+        $family_id = intval($_GET['delete_family']);
+        wp_delete_post($family_id);
+        echo '<meta http-equiv="refresh" content="0; url=?page=gym-familys">';
     }
 
-    // Fetch all parents
-    $parents = get_posts(array(
-        'post_type' => 'gm_parent',
+    // Fetch all familys
+    $familys = get_posts(array(
+        'post_type' => 'wsm_family',
         'post_status' => 'publish',
         'numberposts' => -1,
     ));
@@ -134,7 +134,7 @@ function gm_parents_page() {
                 cursor: pointer;
                 float: left;
             }
-            .gm-athlete-parent {
+            .gm-athlete-family {
                 font-style: italic;
                 font-size: 0.9em;
                 color: #555;
@@ -181,19 +181,19 @@ function gm_parents_page() {
           </style>';
 
     echo '<div style="display: flex; justify-content: space-between; align-items: center;">';
-    echo '<input type="text" id="gm-search-box" placeholder="Search for athletes or parents...">';
-    echo '<button id="gm-add-parent-btn" class="button button-primary">Add New Parent</button>';
+    echo '<input type="text" id="gm-search-box" placeholder="Search for athletes or familys...">';
+    echo '<button id="gm-add-family-btn" class="button button-primary">Add New Parent</button>';
     echo '</div>';
     echo '<div id="gm-search-results" class="gm-search-results"></div>';
 
     echo '<div class="gm-tiles-container">';
-    foreach ($parents as $parent) {
-        $athletes = get_post_meta($parent->ID, '_gm_parent_athletes', true);
+    foreach ($familys as $family) {
+        $athletes = get_post_meta($family->ID, '_wsm_family_athletes', true);
         if ($athletes) {
             foreach ($athletes as $athlete_id => $athlete) {
-                echo '<div class="gm-dashboard-tile gm-athlete-tile" data-athlete-id="' . esc_attr($athlete_id) . '" data-parent-id="' . esc_attr($parent->ID) . '">';
+                echo '<div class="gm-dashboard-tile gm-athlete-tile" data-athlete-id="' . esc_attr($athlete_id) . '" data-family-id="' . esc_attr($family->ID) . '">';
                 echo esc_html($athlete['first_name']) . ' ' . esc_html($athlete['last_name']);
-                echo '<div class="gm-athlete-parent">' . esc_html($parent->post_title) . '</div>';
+                echo '<div class="gm-athlete-family">' . esc_html($family->post_title) . '</div>';
                 echo '</div>';
             }
         }
@@ -202,12 +202,12 @@ function gm_parents_page() {
     echo '</div>';
 
     // Add Parent Modal
-    echo '<div class="gm-modal" id="gm-add-parent-modal">
+    echo '<div class="gm-modal" id="gm-add-family-modal">
             <div class="gm-modal-content">
                 <span class="gm-modal-close">&times;</span>
                 <h2>Add New Parent</h2>
-                <form id="gm-add-parent-form" method="post" action="">
-                    <input type="hidden" name="action" value="add_parent">
+                <form id="gm-add-family-form" method="post" action="">
+                    <input type="hidden" name="action" value="add_family">
                     <label for="first_name">First Name</label>
                     <input type="text" name="first_name" id="first_name" required>
                     <br><label for="last_name">Last Name</label>
@@ -230,10 +230,10 @@ function gm_parents_page() {
                 <h2>Add New Athlete to Parent</h2>
                 <form id="gm-add-athlete-form" method="post" action="">
                     <input type="hidden" name="action" value="add_athlete">
-                    <label for="parent_id">Select Parent</label>
-                    <select name="parent_id" id="parent_id" required>';
-    foreach ($parents as $parent) {
-        echo '<option value="' . $parent->ID . '">' . esc_html($parent->post_title) . '</option>';
+                    <label for="family_id">Select Parent</label>
+                    <select name="family_id" id="family_id" required>';
+    foreach ($familys as $family) {
+        echo '<option value="' . $family->ID . '">' . esc_html($family->post_title) . '</option>';
     }
     echo '      </select>
                     <br><label for="athlete_first_name">Athlete\'s First Name</label>
@@ -262,9 +262,9 @@ function gm_parents_page() {
                 <span class="gm-modal-close">&times;</span>
                 <h2>Edit Athlete</h2>
                 <form id="gm-edit-athlete-form" method="post" action="">
-                    <input type="hidden" name="action" value="gm_edit_athlete">
+                    <input type="hidden" name="action" value="wsm_edit_athlete">
                     <input type="hidden" id="gm-edit-athlete-id" name="athlete_id" value="">
-                    <input type="hidden" id="gm-original-parent-id" name="original_parent_id" value="">
+                    <input type="hidden" id="gm-original-family-id" name="original_family_id" value="">
                     <div class="form-group">
                         <label for="gm-edit-athlete-first-name">First Name</label>
                         <input type="text" id="gm-edit-athlete-first-name" name="first_name" required>
@@ -293,9 +293,9 @@ function gm_parents_page() {
                         <textarea id="gm-edit-athlete-medical-info" name="medical_info"></textarea>
                     </div>
                     <div class="form-group">
-                        <select id="gm-edit-athlete-parent-id" name="parent_id">';
-    foreach ($parents as $parent) {
-        echo '<option value="' . $parent->ID . '">' . esc_html($parent->post_title) . '</option>';
+                        <select id="gm-edit-athlete-family-id" name="family_id">';
+    foreach ($familys as $family) {
+        echo '<option value="' . $family->ID . '">' . esc_html($family->post_title) . '</option>';
     }
     echo '      </select>
                     </div>
@@ -308,7 +308,7 @@ function gm_parents_page() {
                 <select id="gm-assign-class-select">
                     <option value="">Assign Class</option>';
     $classes = get_posts(array(
-        'post_type' => 'gm_class',
+        'post_type' => 'wsm_class',
         'post_status' => 'publish',
         'numberposts' => -1,
     ));
@@ -323,8 +323,8 @@ function gm_parents_page() {
     echo '<script>
             document.addEventListener("DOMContentLoaded", function() {
                 const athleteTiles = document.querySelectorAll(".gm-athlete-tile");
-                const addParentBtn = document.getElementById("gm-add-parent-btn");
-                const addParentModal = document.getElementById("gm-add-parent-modal");
+                const addParentBtn = document.getElementById("gm-add-family-btn");
+                const addParentModal = document.getElementById("gm-add-family-modal");
                 const addAthleteTile = document.getElementById("gm-add-athlete-tile");
                 const addAthleteModal = document.getElementById("gm-add-athlete-modal");
                 const editAthleteModal = document.getElementById("gm-edit-athlete-modal");
@@ -373,9 +373,9 @@ function gm_parents_page() {
                 athleteTiles.forEach(tile => {
                     tile.addEventListener("click", function() {
                         const athleteId = this.getAttribute("data-athlete-id");
-                        const parentId = this.getAttribute("data-parent-id");
+                        const familyId = this.getAttribute("data-family-id");
                         document.getElementById("gm-edit-athlete-id").value = athleteId;
-                        document.getElementById("gm-original-parent-id").value = parentId;
+                        document.getElementById("gm-original-family-id").value = familyId;
 
                         fetch(ajaxurl, {
                             method: "POST",
@@ -383,9 +383,9 @@ function gm_parents_page() {
                                 "Content-Type": "application/x-www-form-urlencoded"
                             },
                             body: new URLSearchParams({
-                                action: "gm_get_athlete_details",
+                                action: "wsm_get_athlete_details",
                                 athlete_id: athleteId,
-                                parent_id: parentId
+                                family_id: familyId
                             })
                         }).then(response => {
                             if (response.ok) {
@@ -407,7 +407,7 @@ function gm_parents_page() {
                                   } else {
                                       document.getElementById("gm-medical-info-container").style.display = "none";
                                   }
-                                  document.getElementById("gm-edit-athlete-parent-id").value = data.parent_id;
+                                  document.getElementById("gm-edit-athlete-family-id").value = data.family_id;
 
                                   const assignedClassesDiv = document.getElementById("gm-assigned-classes");
                                   assignedClassesDiv.innerHTML = "";
@@ -426,7 +426,7 @@ function gm_parents_page() {
                                                       "Content-Type": "application/x-www-form-urlencoded"
                                                   },
                                                   body: new URLSearchParams({
-                                                      action: "gm_remove_athlete_from_class",
+                                                      action: "wsm_remove_athlete_from_session",
                                                       class_id: classData.id,
                                                       athlete_id: athleteId
                                                   })
@@ -462,7 +462,7 @@ function gm_parents_page() {
 
                 deleteAthleteBtn.addEventListener("click", function() {
                     const athleteId = document.getElementById("gm-edit-athlete-id").value;
-                    const parentId = document.getElementById("gm-original-parent-id").value;
+                    const familyId = document.getElementById("gm-original-family-id").value;
                     if (confirm("Are you sure you want to delete this athlete?")) {
                         fetch(ajaxurl, {
                             method: "POST",
@@ -470,9 +470,9 @@ function gm_parents_page() {
                                 "Content-Type": "application/x-www-form-urlencoded"
                             },
                             body: new URLSearchParams({
-                                action: "gm_delete_athlete",
+                                action: "wsm_delete_athlete",
                                 athlete_id: athleteId,
-                                parent_id: parentId
+                                family_id: familyId
                             })
                         }).then(response => {
                             if (response.ok) {
@@ -529,7 +529,7 @@ function gm_parents_page() {
                                 "Content-Type": "application/x-www-form-urlencoded"
                             },
                             body: new URLSearchParams({
-                                action: "gm_assign_class_to_athlete",
+                                action: "wsm_assign_session_to_athlete",
                                 class_id: classId,
                                 athlete_id: athleteId
                             })
@@ -562,7 +562,7 @@ function gm_parents_page() {
                             "Content-Type": "application/x-www-form-urlencoded"
                         },
                         body: new URLSearchParams({
-                            action: "gm_search_athletes_parents",
+                            action: "wsm_search_athletes_familys",
                             query: query
                         })
                     }).then(response => {
@@ -579,7 +579,7 @@ function gm_parents_page() {
                                   item.className = "gm-search-result-item";
                                   item.textContent = result.name;
                                   item.addEventListener("click", function() {
-                                      const parentId = result.parent_id;
+                                      const familyId = result.family_id;
                                       const athleteId = result.athlete_id;
                                       if (athleteId) {
                                           fetch(ajaxurl, {
@@ -588,9 +588,9 @@ function gm_parents_page() {
                                                   "Content-Type": "application/x-www-form-urlencoded"
                                               },
                                               body: new URLSearchParams({
-                                                  action: "gm_get_athlete_details",
+                                                  action: "wsm_get_athlete_details",
                                                   athlete_id: athleteId,
-                                                  parent_id: parentId
+                                                  family_id: familyId
                                               })
                                           }).then(response => {
                                               if (response.ok) {
@@ -601,7 +601,7 @@ function gm_parents_page() {
                                             .then(data => {
                                                 if (data.success) {
                                                     document.getElementById("gm-edit-athlete-id").value = athleteId;
-                                                    document.getElementById("gm-original-parent-id").value = parentId;
+                                                    document.getElementById("gm-original-family-id").value = familyId;
                                                     document.getElementById("gm-edit-athlete-first-name").value = data.first_name;
                                                     document.getElementById("gm-edit-athlete-last-name").value = data.last_name;
                                                     document.getElementById("gm-edit-athlete-gender").value = data.gender;
@@ -613,7 +613,7 @@ function gm_parents_page() {
                                                     } else {
                                                         document.getElementById("gm-medical-info-container").style.display = "none";
                                                     }
-                                                    document.getElementById("gm-edit-athlete-parent-id").value = data.parent_id;
+                                                    document.getElementById("gm-edit-athlete-family-id").value = data.family_id;
 
                                                     const assignedClassesDiv = document.getElementById("gm-assigned-classes");
                                                     assignedClassesDiv.innerHTML = "";
@@ -632,7 +632,7 @@ function gm_parents_page() {
                                                                         "Content-Type": "application/x-www-form-urlencoded"
                                                                     },
                                                                     body: new URLSearchParams({
-                                                                        action: "gm_remove_athlete_from_class",
+                                                                        action: "wsm_remove_athlete_from_session",
                                                                         class_id: classData.id,
                                                                         athlete_id: athleteId
                                                                     })
@@ -680,8 +680,8 @@ function gm_parents_page() {
 }
 
 // Handle editing an athlete
-if (!function_exists('gm_edit_athlete')) {
-    function gm_edit_athlete() {
+if (!function_exists('wsm_edit_athlete')) {
+    function wsm_edit_athlete() {
         if (!current_user_can('manage_options')) {
             echo json_encode(['success' => false]);
             wp_die();
@@ -689,8 +689,8 @@ if (!function_exists('gm_edit_athlete')) {
 
         if (isset($_POST['athlete_id']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['gender']) && isset($_POST['dob'])) {
             $athlete_id = sanitize_text_field($_POST['athlete_id']);
-            $original_parent_id = intval($_POST['original_parent_id']);
-            $new_parent_id = intval($_POST['parent_id']);
+            $original_family_id = intval($_POST['original_family_id']);
+            $new_family_id = intval($_POST['family_id']);
             $first_name = sanitize_text_field($_POST['first_name']);
             $last_name = sanitize_text_field($_POST['last_name']);
             $gender = sanitize_text_field($_POST['gender']);
@@ -698,15 +698,15 @@ if (!function_exists('gm_edit_athlete')) {
             $allergies = isset($_POST['allergies']) ? 'yes' : 'no';
             $medical_info = sanitize_textarea_field($_POST['medical_info']);
 
-            // Remove athlete from original parent's list
-            $original_athletes = get_post_meta($original_parent_id, '_gm_parent_athletes', true);
+            // Remove athlete from original family's list
+            $original_athletes = get_post_meta($original_family_id, '_wsm_family_athletes', true);
             if (isset($original_athletes[$athlete_id])) {
                 unset($original_athletes[$athlete_id]);
-                update_post_meta($original_parent_id, '_gm_parent_athletes', $original_athletes);
+                update_post_meta($original_family_id, '_wsm_family_athletes', $original_athletes);
             }
 
-            // Add athlete to new parent's list
-            $new_athletes = get_post_meta($new_parent_id, '_gm_parent_athletes', true);
+            // Add athlete to new family's list
+            $new_athletes = get_post_meta($new_family_id, '_wsm_family_athletes', true);
             if (!$new_athletes) {
                 $new_athletes = array();
             }
@@ -719,27 +719,27 @@ if (!function_exists('gm_edit_athlete')) {
                 'allergies' => $allergies,
                 'medical_info' => $medical_info,
             );
-            update_post_meta($new_parent_id, '_gm_parent_athletes', $new_athletes);
+            update_post_meta($new_family_id, '_wsm_family_athletes', $new_athletes);
 
             // Update class assignments
             $assigned_classes = get_posts(array(
-                'post_type' => 'gm_class',
+                'post_type' => 'wsm_class',
                 'post_status' => 'publish',
                 'numberposts' => -1,
                 'meta_query' => array(
                     array(
-                        'key' => '_gm_class_athletes',
+                        'key' => '_wsm_session_athletes',
                         'value' => '"' . $athlete_id . '"',
                         'compare' => 'LIKE',
                     ),
                 ),
             ));
             foreach ($assigned_classes as $class) {
-                $class_athletes = get_post_meta($class->ID, '_gm_class_athletes', true);
+                $class_athletes = get_post_meta($class->ID, '_wsm_session_athletes', true);
                 if (is_array($class_athletes)) {
                     if (($key = array_search($athlete_id, $class_athletes)) !== false) {
                         $class_athletes[$key] = $athlete_id;
-                        update_post_meta($class->ID, '_gm_class_athletes', $class_athletes);
+                        update_post_meta($class->ID, '_wsm_session_athletes', $class_athletes);
                     }
                 }
             }
@@ -752,44 +752,44 @@ if (!function_exists('gm_edit_athlete')) {
         wp_die();
     }
 }
-add_action('wp_ajax_gm_edit_athlete', 'gm_edit_athlete');
+add_action('wp_ajax_wsm_edit_athlete', 'wsm_edit_athlete');
 
 // Handle deleting an athlete
-if (!function_exists('gm_delete_athlete')) {
-    function gm_delete_athlete() {
+if (!function_exists('wsm_delete_athlete')) {
+    function wsm_delete_athlete() {
         if (!current_user_can('manage_options')) {
             echo json_encode(['success' => false]);
             wp_die();
         }
 
-        if (isset($_POST['athlete_id']) && isset($_POST['parent_id'])) {
+        if (isset($_POST['athlete_id']) && isset($_POST['family_id'])) {
             $athlete_id = sanitize_text_field($_POST['athlete_id']);
-            $parent_id = intval($_POST['parent_id']);
+            $family_id = intval($_POST['family_id']);
 
-            $athletes = get_post_meta($parent_id, '_gm_parent_athletes', true);
+            $athletes = get_post_meta($family_id, '_wsm_family_athletes', true);
             if (isset($athletes[$athlete_id])) {
                 unset($athletes[$athlete_id]);
-                update_post_meta($parent_id, '_gm_parent_athletes', $athletes);
+                update_post_meta($family_id, '_wsm_family_athletes', $athletes);
 
                 // Remove athlete from all classes
                 $classes = get_posts(array(
-                    'post_type' => 'gm_class',
+                    'post_type' => 'wsm_class',
                     'post_status' => 'publish',
                     'numberposts' => -1,
                     'meta_query' => array(
                         array(
-                            'key' => '_gm_class_athletes',
+                            'key' => '_wsm_session_athletes',
                             'value' => '"' . $athlete_id . '"',
                             'compare' => 'LIKE',
                         ),
                     ),
                 ));
                 foreach ($classes as $class) {
-                    $class_athletes = get_post_meta($class->ID, '_gm_class_athletes', true);
+                    $class_athletes = get_post_meta($class->ID, '_wsm_session_athletes', true);
                     if (is_array($class_athletes)) {
                         if (($key = array_search($athlete_id, $class_athletes)) !== false) {
                             unset($class_athletes[$key]);
-                            update_post_meta($class->ID, '_gm_class_athletes', array_values($class_athletes));
+                            update_post_meta($class->ID, '_wsm_session_athletes', array_values($class_athletes));
                         }
                     }
                 }
@@ -805,32 +805,32 @@ if (!function_exists('gm_delete_athlete')) {
         wp_die();
     }
 }
-add_action('wp_ajax_gm_delete_athlete', 'gm_delete_athlete');
+add_action('wp_ajax_wsm_delete_athlete', 'wsm_delete_athlete');
 
 // Handle getting athlete details for editing
-if (!function_exists('gm_get_athlete_details')) {
-    function gm_get_athlete_details() {
+if (!function_exists('wsm_get_athlete_details')) {
+    function wsm_get_athlete_details() {
         if (!current_user_can('manage_options')) {
             echo json_encode(['success' => false]);
             wp_die();
         }
 
-        if (isset($_POST['athlete_id']) && isset($_POST['parent_id'])) {
+        if (isset($_POST['athlete_id']) && isset($_POST['family_id'])) {
             $athlete_id = sanitize_text_field($_POST['athlete_id']);
-            $parent_id = intval($_POST['parent_id']);
+            $family_id = intval($_POST['family_id']);
 
-            $athletes = get_post_meta($parent_id, '_gm_parent_athletes', true);
+            $athletes = get_post_meta($family_id, '_wsm_family_athletes', true);
             if (isset($athletes[$athlete_id])) {
                 $athlete = $athletes[$athlete_id];
 
                 // Fetch assigned classes
                 $assigned_classes = get_posts(array(
-                    'post_type' => 'gm_class',
+                    'post_type' => 'wsm_class',
                     'post_status' => 'publish',
                     'numberposts' => -1,
                     'meta_query' => array(
                         array(
-                            'key' => '_gm_class_athletes',
+                            'key' => '_wsm_session_athletes',
                             'value' => '"' . $athlete_id . '"',
                             'compare' => 'LIKE',
                         ),
@@ -849,7 +849,7 @@ if (!function_exists('gm_get_athlete_details')) {
                     'dob' => $athlete['dob'],
                     'allergies' => $athlete['allergies'],
                     'medical_info' => $athlete['medical_info'],
-                    'parent_id' => $parent_id,
+                    'family_id' => $family_id,
                     'assigned_classes' => $classes_data,
                 ]);
             } else {
@@ -862,11 +862,11 @@ if (!function_exists('gm_get_athlete_details')) {
         wp_die();
     }
 }
-add_action('wp_ajax_gm_get_athlete_details', 'gm_get_athlete_details');
+add_action('wp_ajax_wsm_get_athlete_details', 'wsm_get_athlete_details');
 
-// Handle searching athletes and parents
-if (!function_exists('gm_search_athletes_parents')) {
-    function gm_search_athletes_parents() {
+// Handle searching athletes and familys
+if (!function_exists('wsm_search_athletes_familys')) {
+    function wsm_search_athletes_familys() {
         if (!current_user_can('manage_options')) {
             echo json_encode(['success' => false]);
             wp_die();
@@ -876,37 +876,37 @@ if (!function_exists('gm_search_athletes_parents')) {
             $query = sanitize_text_field($_POST['query']);
             $results = [];
 
-            // Search parents
-            $parent_posts = get_posts(array(
-                'post_type' => 'gm_parent',
+            // Search familys
+            $family_posts = get_posts(array(
+                'post_type' => 'wsm_family',
                 'post_status' => 'publish',
                 's' => $query,
                 'numberposts' => -1,
             ));
-            foreach ($parent_posts as $parent) {
+            foreach ($family_posts as $family) {
                 $results[] = [
-                    'name' => $parent->post_title,
-                    'url' => admin_url('admin.php?page=gym-parents&parent_id=' . $parent->ID),
-                    'parent_id' => $parent->ID,
+                    'name' => $family->post_title,
+                    'url' => admin_url('admin.php?page=gym-familys&family_id=' . $family->ID),
+                    'family_id' => $family->ID,
                     'athlete_id' => null,
                 ];
             }
 
             // Search athletes
-            $parent_posts = get_posts(array(
-                'post_type' => 'gm_parent',
+            $family_posts = get_posts(array(
+                'post_type' => 'wsm_family',
                 'post_status' => 'publish',
                 'numberposts' => -1,
             ));
-            foreach ($parent_posts as $parent) {
-                $athletes = get_post_meta($parent->ID, '_gm_parent_athletes', true);
+            foreach ($family_posts as $family) {
+                $athletes = get_post_meta($family->ID, '_wsm_family_athletes', true);
                 if ($athletes) {
                     foreach ($athletes as $athlete) {
                         if (stripos($athlete['first_name'], $query) !== false || stripos($athlete['last_name'], $query) !== false) {
                             $results[] = [
-                                'name' => $athlete['first_name'] . ' ' . $athlete['last_name'] . ' (Parent: ' . $parent->post_title . ')',
-                                'url' => admin_url('admin.php?page=gym-parents&athlete_id=' . $athlete['id'] . '&parent_id=' . $parent->ID),
-                                'parent_id' => $parent->ID,
+                                'name' => $athlete['first_name'] . ' ' . $athlete['last_name'] . ' (Parent: ' . $family->post_title . ')',
+                                'url' => admin_url('admin.php?page=gym-familys&athlete_id=' . $athlete['id'] . '&family_id=' . $family->ID),
+                                'family_id' => $family->ID,
                                 'athlete_id' => $athlete['id'],
                             ];
                         }
@@ -922,11 +922,11 @@ if (!function_exists('gm_search_athletes_parents')) {
         wp_die();
     }
 }
-add_action('wp_ajax_gm_search_athletes_parents', 'gm_search_athletes_parents');
+add_action('wp_ajax_wsm_search_athletes_familys', 'wsm_search_athletes_familys');
 
 // Handle assigning a class to an athlete
-if (!function_exists('gm_assign_class_to_athlete')) {
-    function gm_assign_class_to_athlete() {
+if (!function_exists('wsm_assign_session_to_athlete')) {
+    function wsm_assign_session_to_athlete() {
         if (!current_user_can('manage_options')) {
             echo json_encode(['success' => false]);
             wp_die();
@@ -935,14 +935,14 @@ if (!function_exists('gm_assign_class_to_athlete')) {
         if (isset($_POST['class_id']) && isset($_POST['athlete_id'])) {
             $class_id = intval($_POST['class_id']);
             $athlete_id = sanitize_text_field($_POST['athlete_id']);
-            $assigned_athletes = get_post_meta($class_id, '_gm_class_athletes', true);
+            $assigned_athletes = get_post_meta($class_id, '_wsm_session_athletes', true);
             if (!is_array($assigned_athletes)) {
                 $assigned_athletes = array();
             }
 
             if (!in_array($athlete_id, $assigned_athletes)) {
                 $assigned_athletes[] = $athlete_id;
-                update_post_meta($class_id, '_gm_class_athletes', $assigned_athletes);
+                update_post_meta($class_id, '_wsm_session_athletes', $assigned_athletes);
                 echo json_encode(['success' => true]);
             } else {
                 echo json_encode(['success' => false]);
@@ -954,11 +954,11 @@ if (!function_exists('gm_assign_class_to_athlete')) {
         wp_die();
     }
 }
-add_action('wp_ajax_gm_assign_class_to_athlete', 'gm_assign_class_to_athlete');
+add_action('wp_ajax_wsm_assign_session_to_athlete', 'wsm_assign_session_to_athlete');
 
 // Handle removing an athlete from a class
-if (!function_exists('gm_remove_athlete_from_class')) {
-    function gm_remove_athlete_from_class() {
+if (!function_exists('wsm_remove_athlete_from_session')) {
+    function wsm_remove_athlete_from_session() {
         if (!current_user_can('manage_options')) {
             echo json_encode(['success' => false]);
             wp_die();
@@ -967,14 +967,14 @@ if (!function_exists('gm_remove_athlete_from_class')) {
         if (isset($_POST['class_id']) && isset($_POST['athlete_id'])) {
             $class_id = intval($_POST['class_id']);
             $athlete_id = sanitize_text_field($_POST['athlete_id']);
-            $assigned_athletes = get_post_meta($class_id, '_gm_class_athletes', true);
+            $assigned_athletes = get_post_meta($class_id, '_wsm_session_athletes', true);
             if (!is_array($assigned_athletes)) {
                 $assigned_athletes = array();
             }
 
             if (($key = array_search($athlete_id, $assigned_athletes)) !== false) {
                 unset($assigned_athletes[$key]);
-                update_post_meta($class_id, '_gm_class_athletes', array_values($assigned_athletes));
+                update_post_meta($class_id, '_wsm_session_athletes', array_values($assigned_athletes));
                 echo json_encode(['success' => true]);
             } else {
                 echo json_encode(['success' => false]);
@@ -986,5 +986,5 @@ if (!function_exists('gm_remove_athlete_from_class')) {
         wp_die();
     }
 }
-add_action('wp_ajax_gm_remove_athlete_from_class', 'gm_remove_athlete_from_class');
+add_action('wp_ajax_wsm_remove_athlete_from_session', 'wsm_remove_athlete_from_session');
 ?>

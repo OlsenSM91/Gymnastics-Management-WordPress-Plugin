@@ -1,12 +1,12 @@
 <?php
-function gm_levels_page() {
+function wsm_levels_page() {
     global $wpdb;
 
     // Handle adding a new level
     if (isset($_POST['action']) && $_POST['action'] === 'add_level') {
         $level_name = sanitize_text_field($_POST['level_name']);
 
-        wp_insert_term($level_name, 'gm_level');
+        wp_insert_term($level_name, 'wsm_level');
         wp_redirect(admin_url('admin.php?page=gym-levels'));
         exit;
     }
@@ -16,7 +16,7 @@ function gm_levels_page() {
         $level_id = intval($_POST['level_id']);
         $level_name = sanitize_text_field($_POST['level_name']);
 
-        wp_update_term($level_id, 'gm_level', array(
+        wp_update_term($level_id, 'wsm_level', array(
             'name' => $level_name,
         ));
         wp_redirect(admin_url('admin.php?page=gym-levels'));
@@ -26,14 +26,14 @@ function gm_levels_page() {
     // Handle deleting a level
     if (isset($_GET['delete_level'])) {
         $level_id = intval($_GET['delete_level']);
-        wp_delete_term($level_id, 'gm_level');
+        wp_delete_term($level_id, 'wsm_level');
         wp_redirect(admin_url('admin.php?page=gym-levels'));
         exit;
     }
 
     // Fetch all levels
     $levels = get_terms(array(
-        'taxonomy' => 'gm_level',
+        'taxonomy' => 'wsm_level',
         'hide_empty' => false,
     ));
 
@@ -193,6 +193,6 @@ function gm_levels_page() {
           </script>';
 }
 
-add_action('admin_post_add_level', 'gm_levels_page');
-add_action('admin_post_edit_level', 'gm_levels_page');
+add_action('admin_post_add_level', 'wsm_levels_page');
+add_action('admin_post_edit_level', 'wsm_levels_page');
 ?>

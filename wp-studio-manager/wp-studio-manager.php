@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Gymnastics Management
-Description: A plugin to manage coaches, parents, athletes, levels, and classes for a gymnastics company.
+Plugin Name: WP Studio Manager
+Description: Comprehensive studio management system for gymnastics programs.
 Version: 1.0
 Author: Steven Olsen
 */
@@ -9,28 +9,27 @@ Author: Steven Olsen
 if (!defined('ABSPATH')) {
     exit;
 }
+define("WSM_PLUGIN_DIR", plugin_dir_path(__FILE__));
+define("WSM_PLUGIN_URL", plugin_dir_url(__FILE__));
 
-// Include necessary files
-include_once plugin_dir_path(__FILE__) . 'includes/admin-menu.php';
-include_once plugin_dir_path(__FILE__) . 'includes/coaches.php';
-include_once plugin_dir_path(__FILE__) . 'includes/parents.php';
-include_once plugin_dir_path(__FILE__) . 'includes/levels.php';
-include_once plugin_dir_path(__FILE__) . 'includes/classes.php';
+// Autoloader and core classes
+require_once WSM_PLUGIN_DIR . 'core/class-gm-loader.php';
+require_once WSM_PLUGIN_DIR . 'core/class-gm-activator.php';
+require_once WSM_PLUGIN_DIR . 'core/class-gm-deactivator.php';
+require_once WSM_PLUGIN_DIR . 'core/class-gm-plugin.php';
 
-// Activation hook
-function gm_activate_plugin() {
-    // Code to run when the plugin is activated
-}
-register_activation_hook(__FILE__, 'gm_activate_plugin');
+use WSM\Core\GM_Loader;
+use WSM\Core\GM_Activator;
+use WSM\Core\GM_Deactivator;
+use WSM\Core\GM_Plugin;
 
-// Deactivation hook
-function gm_deactivate_plugin() {
-    // Code to run when the plugin is deactivated
-}
-register_deactivation_hook(__FILE__, 'gm_deactivate_plugin');
+GM_Loader::register();
+
+register_activation_hook(__FILE__, array('WSM\\Core\\GM_Activator', 'activate'));
+register_deactivation_hook(__FILE__, array('WSM\\Core\\GM_Deactivator', 'deactivate'));
 
 // Function to create the custom role for coaches
-function gm_add_coach_role() {
+function wsm_add_instructor_role() {
     add_role(
         'coach',
         __('Coach'),
@@ -41,10 +40,10 @@ function gm_add_coach_role() {
         )
     );
 }
-add_action('init', 'gm_add_coach_role');
+add_action('init', 'wsm_add_instructor_role');
 
 // Register custom post types and taxonomies
-function gm_register_custom_post_types() {
+function wsm_register_custom_post_types() {
     // Coaches
     $coach_labels = array(
         'name' => 'Coaches',
@@ -72,7 +71,7 @@ function gm_register_custom_post_types() {
         'rewrite' => array('slug' => 'coaches')
     );
 
-    register_post_type('gm_coach', $coach_args);
+    register_post_type('wsm_instructor', $coach_args);
 
     // Parents
     $parent_labels = array(
@@ -101,7 +100,7 @@ function gm_register_custom_post_types() {
         'rewrite' => array('slug' => 'parents')
     );
 
-    register_post_type('gm_parent', $parent_args);
+    register_post_type('wsm_family', $parent_args);
 
     // Classes
     $class_labels = array(
@@ -130,7 +129,7 @@ function gm_register_custom_post_types() {
         'rewrite' => array('slug' => 'classes')
     );
 
-    register_post_type('gm_class', $class_args);
+    register_post_type('wsm_session', $class_args);
 
     // Levels (as a custom taxonomy)
     $level_labels = array(
@@ -156,7 +155,10 @@ function gm_register_custom_post_types() {
         'rewrite' => array('slug' => 'level')
     );
 
-    register_taxonomy('gm_level', array('gm_class'), $level_args);
+    register_taxonomy('wsm_level', array('wsm_session'), $level_args);
 }
-add_action('init', 'gm_register_custom_post_types');
+add_action('init', 'wsm_register_custom_post_types');
+
+// Run plugin
+GM_Plugin::instance()->run();
 ?>

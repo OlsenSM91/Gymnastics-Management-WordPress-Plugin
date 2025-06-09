@@ -1,8 +1,8 @@
 <?php
-function gm_coaches_page() {
+function wsm_instructors_page() {
     global $wpdb;
 
-    echo '<h1>Coaches Management</h1>';
+    echo '<h1>Instructors Management</h1>';
 
     echo '<style>
             .gm-dashboard-tile {
@@ -49,7 +49,7 @@ function gm_coaches_page() {
                 cursor: pointer;
                 font-size: 20px;
             }
-            .gm-delete-coach-btn {
+            .gm-delete-instructor-btn {
                 background-color: red;
                 color: white;
                 padding: 10px 20px;
@@ -59,23 +59,23 @@ function gm_coaches_page() {
             }
           </style>';
 
-    // Fetch all coaches
-    $coaches = get_posts(array(
-        'post_type' => 'gm_coach',
+    // Fetch all instructors
+    $instructors = get_posts(array(
+        'post_type' => 'wsm_instructor',
         'post_status' => 'publish',
         'numberposts' => -1,
     ));
 
     echo '<div class="gm-tiles-container">';
-    foreach ($coaches as $coach) {
-        $first_name = get_post_meta($coach->ID, '_gm_coach_first_name', true);
-        $last_name = get_post_meta($coach->ID, '_gm_coach_last_name', true);
+    foreach ($instructors as $instructor) {
+        $first_name = get_post_meta($instructor->ID, '_wsm_instructor_first_name', true);
+        $last_name = get_post_meta($instructor->ID, '_wsm_instructor_last_name', true);
 
-        echo '<div class="gm-dashboard-tile gm-coach-tile" data-coach-id="' . esc_attr($coach->ID) . '">';
+        echo '<div class="gm-dashboard-tile gm-instructor-tile" data-instructor-id="' . esc_attr($instructor->ID) . '">';
         echo esc_html($first_name) . ' ' . esc_html($last_name);
         echo '</div>';
     }
-    echo '<div class="gm-dashboard-tile" id="gm-add-coach-btn">+</div>';
+    echo '<div class="gm-dashboard-tile" id="gm-add-instructor-btn">+</div>';
     echo '</div>';
 
     // Add Coach Modal
@@ -83,9 +83,9 @@ function gm_coaches_page() {
             <div class="gm-modal-content">
                 <span class="gm-modal-close">&times;</span>
                 <h2>Add New Coach</h2>
-                <form id="gm-add-coach-form" method="post" action="' . admin_url('admin-post.php') . '">
-                    <input type="hidden" name="action" value="gm_add_coach">
-                    <input type="hidden" id="gm-coach-id" name="coach_id" value="">
+                <form id="gm-add-instructor-form" method="post" action="' . admin_url('admin-post.php') . '">
+                    <input type="hidden" name="action" value="wsm_add_instructor">
+                    <input type="hidden" id="gm-instructor-id" name="instructor_id" value="">
                     <label for="gm-add-first-name">First Name</label>
                     <input type="text" id="gm-add-first-name" name="first_name" required>
                     <br><label for="gm-add-last-name">Last Name</label>
@@ -104,9 +104,9 @@ function gm_coaches_page() {
             <div class="gm-modal-content">
                 <span class="gm-modal-close">&times;</span>
                 <h2>Edit Coach</h2>
-                <form id="gm-edit-coach-form" method="post" action="' . admin_url('admin-post.php') . '">
-                    <input type="hidden" name="action" value="gm_edit_coach">
-                    <input type="hidden" id="gm-edit-coach-id" name="coach_id" value="">
+                <form id="gm-edit-instructor-form" method="post" action="' . admin_url('admin-post.php') . '">
+                    <input type="hidden" name="action" value="wsm_edit_instructor">
+                    <input type="hidden" id="gm-edit-instructor-id" name="instructor_id" value="">
                     <label for="gm-edit-first-name">First Name</label>
                     <input type="text" id="gm-edit-first-name" name="first_name" required>
                     <br><label for="gm-edit-last-name">Last Name</label>
@@ -117,7 +117,7 @@ function gm_coaches_page() {
                     <input type="email" id="gm-edit-email" name="email" required>
                     <br><input type="submit" value="Update Coach">
                 </form>
-                <button id="gm-delete-coach-btn" class="gm-delete-coach-btn">Delete Coach</button>
+                <button id="gm-delete-instructor-btn" class="gm-delete-instructor-btn">Delete Coach</button>
             </div>
           </div>';
 
@@ -126,8 +126,8 @@ function gm_coaches_page() {
                 const addModal = document.getElementById("gm-add-modal");
                 const editModal = document.getElementById("gm-edit-modal");
                 const closeModalBtns = document.querySelectorAll(".gm-modal-close");
-                const addCoachBtn = document.getElementById("gm-add-coach-btn");
-                const deleteCoachBtn = document.getElementById("gm-delete-coach-btn");
+                const addCoachBtn = document.getElementById("gm-add-instructor-btn");
+                const deleteCoachBtn = document.getElementById("gm-delete-instructor-btn");
 
                 addCoachBtn.addEventListener("click", function() {
                     addModal.style.display = "flex";
@@ -147,18 +147,18 @@ function gm_coaches_page() {
                     }
                 });
 
-                const coachTiles = document.querySelectorAll(".gm-coach-tile");
-                coachTiles.forEach(tile => {
+                const instructorTiles = document.querySelectorAll(".gm-instructor-tile");
+                instructorTiles.forEach(tile => {
                     tile.addEventListener("click", function() {
-                        const coachId = this.getAttribute("data-coach-id");
-                        document.getElementById("gm-edit-coach-id").value = coachId;
+                        const instructorId = this.getAttribute("data-instructor-id");
+                        document.getElementById("gm-edit-instructor-id").value = instructorId;
 
                         fetch("' . admin_url('admin-ajax.php') . '", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/x-www-form-urlencoded"
                             },
-                            body: "action=gm_get_coach_details&coach_id=" + coachId
+                            body: "action=wsm_get_instructor_details&instructor_id=" + instructorId
                         }).then(response => response.json())
                           .then(data => {
                               if (data.success) {
@@ -169,27 +169,27 @@ function gm_coaches_page() {
 
                                   editModal.style.display = "flex";
                               } else {
-                                  console.error("Failed to load coach details");
+                                  console.error("Failed to load instructor details");
                               }
                           });
                     });
                 });
 
                 deleteCoachBtn.addEventListener("click", function() {
-                    const coachId = document.getElementById("gm-edit-coach-id").value;
-                    if (confirm("Are you sure you want to delete this coach?")) {
+                    const instructorId = document.getElementById("gm-edit-instructor-id").value;
+                    if (confirm("Are you sure you want to delete this instructor?")) {
                         fetch("' . admin_url('admin-post.php') . '", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/x-www-form-urlencoded"
                             },
-                            body: "action=gm_delete_coach&coach_id=" + coachId + "&_wpnonce=' . wp_create_nonce('delete_coach_nonce') . '"
+                            body: "action=wsm_delete_instructor&instructor_id=" + instructorId + "&_wpnonce=' . wp_create_nonce('delete_instructor_nonce') . '"
                         }).then(response => response.text())
                           .then(data => {
                               if (data === "success") {
                                   location.reload();
                               } else {
-                                  console.error("Failed to delete coach");
+                                  console.error("Failed to delete instructor");
                               }
                           });
                     }
@@ -198,8 +198,8 @@ function gm_coaches_page() {
           </script>';
 }
 
-// Handle adding a new coach
-function gm_add_coach() {
+// Handle adding a new instructor
+function wsm_add_instructor() {
     if (!current_user_can('manage_options')) {
         return;
     }
@@ -210,16 +210,16 @@ function gm_add_coach() {
         $phone = sanitize_text_field($_POST['phone']);
         $email = sanitize_email($_POST['email']);
 
-        // Create the coach post
-        $coach_id = wp_insert_post(array(
+        // Create the instructor post
+        $instructor_id = wp_insert_post(array(
             'post_title' => $first_name . ' ' . $last_name,
-            'post_type' => 'gm_coach',
+            'post_type' => 'wsm_instructor',
             'post_status' => 'publish',
             'meta_input' => array(
-                '_gm_coach_first_name' => $first_name,
-                '_gm_coach_last_name' => $last_name,
-                '_gm_coach_phone' => $phone,
-                '_gm_coach_email' => $email,
+                '_wsm_instructor_first_name' => $first_name,
+                '_wsm_instructor_last_name' => $last_name,
+                '_wsm_instructor_phone' => $phone,
+                '_wsm_instructor_email' => $email,
             ),
         ));
 
@@ -228,7 +228,7 @@ function gm_add_coach() {
         if (!is_wp_error($user_id)) {
             wp_update_user(array(
                 'ID' => $user_id,
-                'role' => 'coach',
+                'role' => 'instructor',
                 'first_name' => $first_name,
                 'last_name' => $last_name,
             ));
@@ -236,41 +236,41 @@ function gm_add_coach() {
             // Send email with login details
             wp_send_new_user_notifications($user_id, 'user');
 
-            // Update the coach post with the user ID
-            update_post_meta($coach_id, '_gm_coach_user_id', $user_id);
+            // Update the instructor post with the user ID
+            update_post_meta($instructor_id, '_wsm_instructor_user_id', $user_id);
         }
     }
 
-    wp_redirect(admin_url('admin.php?page=gym-coaches'));
+    wp_redirect(admin_url('admin.php?page=gym-instructors'));
     exit;
 }
-add_action('admin_post_gm_add_coach', 'gm_add_coach');
+add_action('admin_post_wsm_add_instructor', 'wsm_add_instructor');
 
-// Handle editing a coach
-function gm_edit_coach() {
+// Handle editing a instructor
+function wsm_edit_instructor() {
     if (!current_user_can('manage_options')) {
         return;
     }
 
-    if (isset($_POST['coach_id']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['phone']) && isset($_POST['email'])) {
-        $coach_id = intval($_POST['coach_id']);
+    if (isset($_POST['instructor_id']) && isset($_POST['first_name']) && isset($_POST['last_name']) && isset($_POST['phone']) && isset($_POST['email'])) {
+        $instructor_id = intval($_POST['instructor_id']);
         $first_name = sanitize_text_field($_POST['first_name']);
         $last_name = sanitize_text_field($_POST['last_name']);
         $phone = sanitize_text_field($_POST['phone']);
         $email = sanitize_email($_POST['email']);
 
         wp_update_post(array(
-            'ID' => $coach_id,
+            'ID' => $instructor_id,
             'post_title' => $first_name . ' ' . $last_name,
         ));
 
-        update_post_meta($coach_id, '_gm_coach_first_name', $first_name);
-        update_post_meta($coach_id, '_gm_coach_last_name', $last_name);
-        update_post_meta($coach_id, '_gm_coach_phone', $phone);
-        update_post_meta($coach_id, '_gm_coach_email', $email);
+        update_post_meta($instructor_id, '_wsm_instructor_first_name', $first_name);
+        update_post_meta($instructor_id, '_wsm_instructor_last_name', $last_name);
+        update_post_meta($instructor_id, '_wsm_instructor_phone', $phone);
+        update_post_meta($instructor_id, '_wsm_instructor_email', $email);
 
-        // Update the WordPress user associated with the coach
-        $user_id = get_post_meta($coach_id, '_gm_coach_user_id', true);
+        // Update the WordPress user associated with the instructor
+        $user_id = get_post_meta($instructor_id, '_wsm_instructor_user_id', true);
         if ($user_id) {
             wp_update_user(array(
                 'ID' => $user_id,
@@ -281,28 +281,28 @@ function gm_edit_coach() {
         }
     }
 
-    wp_redirect(admin_url('admin.php?page=gym-coaches'));
+    wp_redirect(admin_url('admin.php?page=gym-instructors'));
     exit;
 }
-add_action('admin_post_gm_edit_coach', 'gm_edit_coach');
+add_action('admin_post_wsm_edit_instructor', 'wsm_edit_instructor');
 
-// Handle deleting a coach
-function gm_delete_coach() {
+// Handle deleting a instructor
+function wsm_delete_instructor() {
     if (!current_user_can('manage_options')) {
         return;
     }
 
-    if (isset($_POST['coach_id']) && check_admin_referer('delete_coach_nonce')) {
-        $coach_id = intval($_POST['coach_id']);
+    if (isset($_POST['instructor_id']) && check_admin_referer('delete_instructor_nonce')) {
+        $instructor_id = intval($_POST['instructor_id']);
 
-        // Delete the WordPress user associated with the coach
-        $user_id = get_post_meta($coach_id, '_gm_coach_user_id', true);
+        // Delete the WordPress user associated with the instructor
+        $user_id = get_post_meta($instructor_id, '_wsm_instructor_user_id', true);
         if ($user_id) {
             wp_delete_user($user_id);
         }
 
-        // Delete the coach post
-        wp_delete_post($coach_id, true);
+        // Delete the instructor post
+        wp_delete_post($instructor_id, true);
         echo 'success';
     } else {
         echo 'failure';
@@ -310,21 +310,21 @@ function gm_delete_coach() {
 
     exit;
 }
-add_action('admin_post_gm_delete_coach', 'gm_delete_coach');
+add_action('admin_post_wsm_delete_instructor', 'wsm_delete_instructor');
 
-// Handle getting coach details for editing
-function gm_get_coach_details() {
+// Handle getting instructor details for editing
+function wsm_get_instructor_details() {
     if (!current_user_can('manage_options')) {
         echo json_encode(['success' => false]);
         wp_die();
     }
 
-    if (isset($_POST['coach_id'])) {
-        $coach_id = intval($_POST['coach_id']);
-        $first_name = get_post_meta($coach_id, '_gm_coach_first_name', true);
-        $last_name = get_post_meta($coach_id, '_gm_coach_last_name', true);
-        $phone = get_post_meta($coach_id, '_gm_coach_phone', true);
-        $email = get_post_meta($coach_id, '_gm_coach_email', true);
+    if (isset($_POST['instructor_id'])) {
+        $instructor_id = intval($_POST['instructor_id']);
+        $first_name = get_post_meta($instructor_id, '_wsm_instructor_first_name', true);
+        $last_name = get_post_meta($instructor_id, '_wsm_instructor_last_name', true);
+        $phone = get_post_meta($instructor_id, '_wsm_instructor_phone', true);
+        $email = get_post_meta($instructor_id, '_wsm_instructor_email', true);
 
         echo json_encode([
             'success' => true,
@@ -339,5 +339,5 @@ function gm_get_coach_details() {
 
     wp_die();
 }
-add_action('wp_ajax_gm_get_coach_details', 'gm_get_coach_details');
+add_action('wp_ajax_wsm_get_instructor_details', 'wsm_get_instructor_details');
 ?>

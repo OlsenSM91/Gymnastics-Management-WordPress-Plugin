@@ -1,33 +1,33 @@
-# Gymnastics Management WordPress Plugin
+# WP Studio Manager
 
-The Gymnastics Management WordPress plugin is designed to help manage classes, athletes, coaches, and parents for gymnastics programs. This plugin provides an intuitive interface for administrators to handle scheduling, athlete assignments, and more.
+The WP Studio Manager plugin provides flexible management for sessions, participants, instructors and families across many industries.
 
 ---
-
+This repository uses an organized file structure with separate directories for core functionality, admin screens, and assets.  A simple autoloader in the `core` folder loads classes automatically.
 ## Features
 
 - **Class Management**
-  - Create and manage classes
-  - Assign athletes to classes
-  - Display class schedules
-  - Track available and remaining seats in classes
-  - Remove athletes from classes
+  - Create and manage sessions
+  - Assign participants to sessions
+  - Display schedules
+  - Track available and remaining seats
+  - Remove participants from sessions
 
-- **Athlete Management**
-  - Add and manage parents and their athletes
-  - Assign athletes to classes
-  - View athlete details
+- **Participant Management**
+  - Add and manage families and their participants
+  - Assign participants to sessions
+  - View participant details
 
-- **Coach Management**
-  - Add and manage coaches
+- **Instructor Management**
+  - Add and manage instructors
 
 ---
 
 ## Installation
 
-1. Upload the plugin files to the `/wp-content/plugins/gymnastics-management` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/wp-studio-manager` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Navigate to the Gymnastics Management section in the WordPress admin menu to begin managing classes, athletes, and coaches.
+3. Navigate to the WP Studio Manager section in the WordPress admin menu to begin managing sessions, participants, and instructors.
 
 ---
 
@@ -38,24 +38,24 @@ The Gymnastics Management WordPress plugin is designed to help manage classes, a
 ![class-management1](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/4f1fddc3-4ca7-4642-9ed0-bcb7e03e5ee5)
 ![class-management2](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/b92dbf8a-f4ab-45e3-86ac-2c18e57f4f1d)
 
-1. Navigate to **Gym Management > Classes** to manage classes.
-2. Select a level to view and manage classes under that level.
-3. Add new classes, assign athletes, and view schedules.
+1. Navigate to **Studio Management > Sessions** to manage sessions.
+2. Select a level to view and manage sessions under that level.
+3. Add new sessions, assign participants, and view schedules.
 
-### Athlete Management
+### Participant Management
 
 ![athlete-management](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/5c08c226-1bd4-4746-8260-5ba88cf7a7d4)
 
-1. Navigate to **Gym Management > Parents** to manage parents and their athletes.
-2. Add new parents and their athletes.
-3. Assign athletes to classes.
+1. Navigate to **Studio Management > Families** to manage families and their participants.
+2. Add new families and their participants.
+3. Assign participants to sessions.
 
-### Coach Management
+### Instructor Management
 
 ![coach-management](https://github.com/OlsenSM91/Gymnastics-Management-WordPress-Plugin/assets/130707762/f0035c95-d37c-42b7-b104-8f0d091e8401)
 
-1. Navigate to **Gym Management > Coaches** to manage coaches.
-2. Add new coaches and view coach details.
+1. Navigate to **Studio Management > Instructors** to manage instructors.
+2. Add new instructors and view instructor details.
 
 ---
 
@@ -67,12 +67,12 @@ The Gymnastics Management WordPress plugin is designed to help manage classes, a
 
 2. **coaches.php**
    - Further styling/UI details
-   - Integrate as WordPress user "Coaches Role" which allows access to Gym Management, but that's it
+   - Integrate as WordPress user "Coaches Role" which allows access to Studio Management, but that's it
 
 3. **parents.php**
-   - Although it's still called `parents.php` it has been rebranded as Athlete Management
+   - Although it's still called `parents.php` it has been rebranded as Participant Management
    - This page has proved difficult to work on. I finally have it functioning again so main reason for this commit update of early development
-   - Functionality mostly complete, still need to add a Class view to it (previous fail was trying to have the ability to delete/assign class, may attempt again)
+   - Functionality mostly complete, still need to add a Session view to it (previous fail was trying to have the ability to delete/assign session, may attempt again)
 
 5. **Develop Parent Portal**
    - Begin development of a parent portal once the backend is complete.
