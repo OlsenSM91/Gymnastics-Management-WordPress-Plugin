@@ -22,6 +22,7 @@ use WSM\Core\GM_Loader;
 use WSM\Core\GM_Activator;
 use WSM\Core\GM_Deactivator;
 use WSM\Core\GM_Plugin;
+use WSM\Includes\Industry_Configs\Industry_Config;
 
 GM_Loader::register();
 
@@ -30,11 +31,13 @@ register_deactivation_hook(__FILE__, array('WSM\\Core\\GM_Deactivator', 'deactiv
 
 // Function to create the custom role for coaches
 function gm_add_coach_role() {
+    $label = Industry_Config::get_label('instructor_label');
+    $role_slug = 'wsm_instructor';
     add_role(
-        'coach',
-        __('Coach'),
+        $role_slug,
+        __( $label ),
         array(
-            'read'         => true,  // True allows this capability
+            'read'         => true,
             'edit_posts'   => false,
             'delete_posts' => false,
         )
@@ -44,89 +47,94 @@ add_action('init', 'gm_add_coach_role');
 
 // Register custom post types and taxonomies
 function gm_register_custom_post_types() {
-    // Coaches
+    $config = Industry_Config::get_config();
+    $instructor = $config['instructor_label'];
+    $participant = $config['participant_label'];
+    $session = $config['session_label'];
+
+    // Coaches/Instructors
     $coach_labels = array(
-        'name' => 'Coaches',
-        'singular_name' => 'Coach',
-        'menu_name' => 'Coaches',
-        'name_admin_bar' => 'Coach',
-        'add_new' => 'Add New',
-        'add_new_item' => 'Add New Coach',
-        'new_item' => 'New Coach',
-        'edit_item' => 'Edit Coach',
-        'view_item' => 'View Coach',
-        'all_items' => 'All Coaches',
-        'search_items' => 'Search Coaches',
-        'parent_item_colon' => 'Parent Coaches:',
-        'not_found' => 'No coaches found.',
-        'not_found_in_trash' => 'No coaches found in Trash.'
+        'name'               => $instructor . 's',
+        'singular_name'      => $instructor,
+        'menu_name'          => $instructor . 's',
+        'name_admin_bar'     => $instructor,
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New ' . $instructor,
+        'new_item'           => 'New ' . $instructor,
+        'edit_item'          => 'Edit ' . $instructor,
+        'view_item'          => 'View ' . $instructor,
+        'all_items'          => 'All ' . $instructor . 's',
+        'search_items'       => 'Search ' . $instructor . 's',
+        'parent_item_colon'  => 'Parent ' . $instructor . 's:',
+        'not_found'          => 'No ' . strtolower($instructor) . 's found.',
+        'not_found_in_trash' => 'No ' . strtolower($instructor) . 's found in Trash.'
     );
 
     $coach_args = array(
-        'labels' => $coach_labels,
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'custom-fields'),
+        'labels'          => $coach_labels,
+        'public'          => true,
+        'has_archive'     => true,
+        'supports'        => array('title', 'editor', 'custom-fields'),
         'capability_type' => 'post',
-        'rewrite' => array('slug' => 'coaches')
+        'rewrite'         => array('slug' => sanitize_title($instructor . 's'))
     );
 
     register_post_type('gm_coach', $coach_args);
 
-    // Parents
+    // Participants (stored as parents for legacy)
     $parent_labels = array(
-        'name' => 'Parents',
-        'singular_name' => 'Parent',
-        'menu_name' => 'Parents',
-        'name_admin_bar' => 'Parent',
-        'add_new' => 'Add New',
-        'add_new_item' => 'Add New Parent',
-        'new_item' => 'New Parent',
-        'edit_item' => 'Edit Parent',
-        'view_item' => 'View Parent',
-        'all_items' => 'All Parents',
-        'search_items' => 'Search Parents',
-        'parent_item_colon' => 'Parent Parents:',
-        'not_found' => 'No parents found.',
-        'not_found_in_trash' => 'No parents found in Trash.'
+        'name'               => $participant . 's',
+        'singular_name'      => $participant,
+        'menu_name'          => $participant . 's',
+        'name_admin_bar'     => $participant,
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New ' . $participant,
+        'new_item'           => 'New ' . $participant,
+        'edit_item'          => 'Edit ' . $participant,
+        'view_item'          => 'View ' . $participant,
+        'all_items'          => 'All ' . $participant . 's',
+        'search_items'       => 'Search ' . $participant . 's',
+        'parent_item_colon'  => 'Parent ' . $participant . 's:',
+        'not_found'          => 'No ' . strtolower($participant) . 's found.',
+        'not_found_in_trash' => 'No ' . strtolower($participant) . 's found in Trash.'
     );
 
     $parent_args = array(
-        'labels' => $parent_labels,
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'custom-fields'),
+        'labels'          => $parent_labels,
+        'public'          => true,
+        'has_archive'     => true,
+        'supports'        => array('title', 'editor', 'custom-fields'),
         'capability_type' => 'post',
-        'rewrite' => array('slug' => 'parents')
+        'rewrite'         => array('slug' => sanitize_title($participant . 's'))
     );
 
     register_post_type('gm_parent', $parent_args);
 
-    // Classes
+    // Sessions/Classes
     $class_labels = array(
-        'name' => 'Classes',
-        'singular_name' => 'Class',
-        'menu_name' => 'Classes',
-        'name_admin_bar' => 'Class',
-        'add_new' => 'Add New',
-        'add_new_item' => 'Add New Class',
-        'new_item' => 'New Class',
-        'edit_item' => 'Edit Class',
-        'view_item' => 'View Class',
-        'all_items' => 'All Classes',
-        'search_items' => 'Search Classes',
-        'parent_item_colon' => 'Parent Classes:',
-        'not_found' => 'No classes found.',
-        'not_found_in_trash' => 'No classes found in Trash.'
+        'name'               => $session . 'es',
+        'singular_name'      => $session,
+        'menu_name'          => $session . 'es',
+        'name_admin_bar'     => $session,
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New ' . $session,
+        'new_item'           => 'New ' . $session,
+        'edit_item'          => 'Edit ' . $session,
+        'view_item'          => 'View ' . $session,
+        'all_items'          => 'All ' . $session . 'es',
+        'search_items'       => 'Search ' . $session . 'es',
+        'parent_item_colon'  => 'Parent ' . $session . 'es:',
+        'not_found'          => 'No ' . strtolower($session) . 'es found.',
+        'not_found_in_trash' => 'No ' . strtolower($session) . 'es found in Trash.'
     );
 
     $class_args = array(
-        'labels' => $class_labels,
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'custom-fields'),
+        'labels'          => $class_labels,
+        'public'          => true,
+        'has_archive'     => true,
+        'supports'        => array('title', 'editor', 'custom-fields'),
         'capability_type' => 'post',
-        'rewrite' => array('slug' => 'classes')
+        'rewrite'         => array('slug' => sanitize_title($session . 'es'))
     );
 
     register_post_type('gm_class', $class_args);
