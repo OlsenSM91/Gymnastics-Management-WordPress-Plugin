@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Gymnastics Management
-Description: A plugin to manage coaches, parents, athletes, levels, and classes for a gymnastics company.
+Plugin Name: WP Studio Manager
+Description: Comprehensive studio management system for gymnastics programs.
 Version: 1.0
 Author: Steven Olsen
 */
@@ -9,13 +9,15 @@ Author: Steven Olsen
 if (!defined('ABSPATH')) {
     exit;
 }
+define("WSM_PLUGIN_DIR", plugin_dir_path(__FILE__));
+define("WSM_PLUGIN_URL", plugin_dir_url(__FILE__));
 
 // Include necessary files
-include_once plugin_dir_path(__FILE__) . 'includes/admin-menu.php';
-include_once plugin_dir_path(__FILE__) . 'includes/coaches.php';
-include_once plugin_dir_path(__FILE__) . 'includes/parents.php';
-include_once plugin_dir_path(__FILE__) . 'includes/levels.php';
-include_once plugin_dir_path(__FILE__) . 'includes/classes.php';
+include_once plugin_dir_path(__FILE__) . 'admin/controllers/admin-menu.php';
+include_once plugin_dir_path(__FILE__) . 'admin/controllers/coaches.php';
+include_once plugin_dir_path(__FILE__) . 'admin/controllers/parents.php';
+include_once plugin_dir_path(__FILE__) . 'admin/controllers/levels.php';
+include_once plugin_dir_path(__FILE__) . 'admin/controllers/classes.php';
 
 // Activation hook
 function gm_activate_plugin() {

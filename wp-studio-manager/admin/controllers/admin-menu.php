@@ -139,7 +139,7 @@ function gm_clear_all() {
 // Enqueue admin scripts
 function gm_enqueue_admin_scripts($hook_suffix) {
     if (strpos($hook_suffix, 'gym-') !== false) {
-        wp_enqueue_script('gm-admin-script', plugin_dir_url(__FILE__) . 'admin.js', array('jquery'), '1.0', true);
+        wp_enqueue_script('gm-admin-script', WSM_PLUGIN_URL . 'assets/js/admin/admin.js', array('jquery'), '1.0', true);
     }
 }
 add_action('admin_enqueue_scripts', 'gm_enqueue_admin_scripts');

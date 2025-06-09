@@ -1,9 +1,9 @@
-# Gymnastics Management WordPress Plugin
+# WP Studio Manager
 
-The Gymnastics Management WordPress plugin is designed to help manage classes, athletes, coaches, and parents for gymnastics programs. This plugin provides an intuitive interface for administrators to handle scheduling, athlete assignments, and more.
+The WP Studio Manager plugin helps manage classes, athletes, coaches, and parents for gymnastics programs.
 
 ---
-
+This repository uses an organized file structure with separate directories for core functionality, admin screens, and assets.
 ## Features
 
 - **Class Management**
@@ -25,9 +25,9 @@ The Gymnastics Management WordPress plugin is designed to help manage classes, a
 
 ## Installation
 
-1. Upload the plugin files to the `/wp-content/plugins/gymnastics-management` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/wp-studio-manager` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Navigate to the Gymnastics Management section in the WordPress admin menu to begin managing classes, athletes, and coaches.
+3. Navigate to the WP Studio Manager section in the WordPress admin menu to begin managing classes, athletes, and coaches.
 
 ---
 
