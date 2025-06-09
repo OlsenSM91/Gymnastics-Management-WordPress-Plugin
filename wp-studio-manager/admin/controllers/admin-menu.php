@@ -140,6 +140,16 @@ function gm_clear_all() {
 function gm_enqueue_admin_scripts($hook_suffix) {
     if (strpos($hook_suffix, 'gym-') !== false) {
         wp_enqueue_script('gm-admin-script', WSM_PLUGIN_URL . 'assets/js/admin/admin.js', array('jquery'), '1.0', true);
+        wp_enqueue_style('gm-classes-style', WSM_PLUGIN_URL . 'assets/css/admin/classes.css');
+
+        if (strpos($hook_suffix, 'gym-classes') !== false) {
+            wp_enqueue_script('gm-classes-script', WSM_PLUGIN_URL . 'assets/js/admin/classes.js', array('jquery'), '1.0', true);
+            wp_localize_script('gm-classes-script', 'wsmClasses', array(
+                'adminPostUrl' => admin_url('admin-post.php'),
+                'adminAjaxUrl' => admin_url('admin-ajax.php'),
+                'deleteNonce'  => wp_create_nonce('delete_class_nonce')
+            ));
+        }
     }
 }
 add_action('admin_enqueue_scripts', 'gm_enqueue_admin_scripts');
