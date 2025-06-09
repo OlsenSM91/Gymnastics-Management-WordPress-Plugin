@@ -10,9 +10,14 @@ class GM_Loader {
         if (strpos($class, 'WSM\\') !== 0) {
             return;
         }
-        $relative = strtolower(str_replace('WSM\\', '', $class));
+        $relative = substr($class, 4); // Remove "WSM\\"
         $relative = str_replace('\\', '/', $relative);
-        $file = WSM_PLUGIN_DIR . 'core/' . $relative . '.php';
+        $parts    = explode('/', $relative);
+        $class_name = array_pop($parts);
+        $path  = strtolower(implode('/', $parts));
+        $file  = WSM_PLUGIN_DIR . ($path ? $path . '/' : '');
+        $file .= 'class-' . strtolower(str_replace('_', '-', $class_name)) . '.php';
+
         if (file_exists($file)) {
             include $file;
         }

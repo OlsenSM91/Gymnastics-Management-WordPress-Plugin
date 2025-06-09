@@ -3,7 +3,8 @@
 The WP Studio Manager plugin helps manage classes, athletes, coaches, and parents for gymnastics programs.
 
 ---
-This repository uses an organized file structure with separate directories for core functionality, admin screens, and assets.  A simple autoloader in the `core` folder loads classes automatically.
+This repository uses an organized file structure with separate directories for core functionality, admin screens, and assets.  A simple autoloader in the `core` folder loads classes automatically.  
+Phase 1 adds an `includes` directory containing entity definitions, repositories, and services to better separate business logic from presentation.
 ## Features
 
 - **Class Management**
@@ -20,6 +21,8 @@ This repository uses an organized file structure with separate directories for c
 
 - **Coach Management**
   - Add and manage coaches
+- **Architecture**
+  - Entity classes, repositories and service layer provide a foundation for future features
 
 ---
 

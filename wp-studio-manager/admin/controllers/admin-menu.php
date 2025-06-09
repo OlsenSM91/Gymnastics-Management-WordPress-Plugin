@@ -14,24 +14,6 @@ function gm_admin_page() {
     echo '<h1>Gymnastics Management Dashboard</h1>';
     echo '<p>Welcome to the Gymnastics Management plugin. Use the menu on the left to navigate through the features.</p>';
 
-    echo '<style>
-            .gm-dashboard-tile {
-                display: inline-block;
-                width: 200px;
-                margin: 10px;
-                padding: 20px;
-                text-align: center;
-                background-color: #f1f1f1;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                text-decoration: none;
-                color: #000;
-                font-weight: bold;
-            }
-            .gm-dashboard-tile:hover {
-                background-color: #e1e1e1;
-            }
-          </style>';
 
     $actions = [
         'clear_athletes' => 'Clear Athletes',
@@ -141,6 +123,7 @@ function gm_enqueue_admin_scripts($hook_suffix) {
     if (strpos($hook_suffix, 'gym-') !== false) {
         wp_enqueue_script('gm-admin-script', WSM_PLUGIN_URL . 'assets/js/admin/admin.js', array('jquery'), '1.0', true);
         wp_enqueue_style('gm-classes-style', WSM_PLUGIN_URL . 'assets/css/admin/classes.css');
+        wp_enqueue_style('gm-dashboard-style', WSM_PLUGIN_URL . 'assets/css/admin/dashboard.css');
 
         if (strpos($hook_suffix, 'gym-classes') !== false) {
             wp_enqueue_script('gm-classes-script', WSM_PLUGIN_URL . 'assets/js/admin/classes.js', array('jquery'), '1.0', true);
