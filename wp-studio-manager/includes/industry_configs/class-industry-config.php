@@ -2,42 +2,32 @@
 namespace WSM\Includes\Industry_Configs;
 
 class Industry_Config {
-    private static $configs = [
-        'fitness' => [
-            'participant_label' => 'Member',
-            'session_label'     => 'Class',
-            'instructor_label'  => 'Trainer',
-            'features'          => ['body_composition', 'progress_photos', 'workout_plans'],
-            'required_fields'   => ['emergency_contact', 'health_conditions'],
-            'integrations'      => ['heart_rate_monitors', 'nutrition_tracking'],
-        ],
-        'education' => [
-            'participant_label' => 'Student',
-            'session_label'     => 'Lesson',
-            'instructor_label'  => 'Teacher',
-            'features'          => ['progress_tracking', 'assignments', 'recitals'],
-            'required_fields'   => ['skill_level', 'instrument', 'parent_contact'],
-            'integrations'      => ['practice_tracking', 'sheet_music'],
-        ],
-        'creative' => [
-            'participant_label' => 'Artist',
-            'session_label'     => 'Workshop',
-            'instructor_label'  => 'Instructor',
-            'features'          => ['portfolio', 'supply_lists', 'project_gallery'],
-            'required_fields'   => ['experience_level', 'materials_owned'],
-            'integrations'      => ['portfolio_sites', 'social_sharing'],
-        ],
-        'gymnastics' => [
+    private static $configs = null;
+
+    private static function load_configs() {
+        if (self::$configs !== null) {
+            return;
+        }
+
+        self::$configs = [
+            'fitness'    => Fitness_Config::get(),
+            'education'  => Education_Config::get(),
+            'creative'   => Creative_Config::get(),
+            'sports'     => Sports_Config::get(),
+            'wellness'   => Wellness_Config::get(),
+            'gymnastics' => [
             'participant_label' => 'Athlete',
             'session_label'     => 'Practice',
             'instructor_label'  => 'Coach',
             'features'          => ['skill_tracking', 'meet_management', 'routine_videos'],
             'required_fields'   => ['usag_number', 'emergency_contact', 'medical_conditions'],
             'integrations'      => ['scoring_systems', 'competition_registration'],
-        ],
-    ];
+            ],
+        ];
+    }
 
     public static function get_config($industry = null) {
+        self::load_configs();
         if (!$industry) {
             $industry = get_option('wsm_industry', 'fitness');
         }
