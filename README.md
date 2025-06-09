@@ -23,6 +23,7 @@ Phase 1 adds an `includes` directory containing entity definitions, repositories
   - Add and manage coaches
 - **Architecture**
   - Entity classes, repositories and service layer provide a foundation for future features
+  - Industry configuration system with flexible terminology
 
 ---
 
