@@ -22,6 +22,15 @@ class Education_Config {
             ],
             'required_fields'   => ['skill_level', 'instrument', 'parent_contact'],
             'integrations'      => ['practice_tracking', 'sheet_music'],
+            'custom_fields'     => [
+                'participant' => [
+                    'skill_level'    => ['label' => 'Skill Level', 'type' => 'text', 'required' => true],
+                    'instrument'     => ['label' => 'Instrument', 'type' => 'text'],
+                ],
+                'session' => [
+                    'room'   => ['label' => 'Room', 'type' => 'text'],
+                ],
+            ],
         ];
     }
 }

@@ -20,6 +20,15 @@ class Creative_Config {
             ],
             'required_fields'   => ['experience_level', 'materials_owned'],
             'integrations'      => ['portfolio_sites', 'social_sharing'],
+            'custom_fields'     => [
+                'participant' => [
+                    'experience_level' => ['label' => 'Experience Level', 'type' => 'text'],
+                    'materials_owned'  => ['label' => 'Materials Owned', 'type' => 'textarea'],
+                ],
+                'session' => [
+                    'supplies_needed' => ['label' => 'Supplies Needed', 'type' => 'textarea'],
+                ],
+            ],
         ];
     }
 }

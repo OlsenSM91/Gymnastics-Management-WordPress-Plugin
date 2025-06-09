@@ -63,7 +63,7 @@
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: 'action=gm_remove_athlete&class_id=' + classId + '&athlete_id=' + athleteId
                 }).then(r => r.text()).then(data => {
-                    if(data === 'success'){ location.reload(); } else { console.error('Failed to remove athlete'); }
+                    if(data === 'success'){ window.location.href = wsmClasses.currentPage; } else { console.error('Failed to remove athlete'); }
                 });
             });
         });
@@ -77,7 +77,7 @@
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: 'action=gm_remove_coach&class_id=' + classId + '&coach_id=' + coachId
                 }).then(r => r.text()).then(data => {
-                    if(data === 'success'){ location.reload(); } else { console.error('Failed to remove coach'); }
+                    if(data === 'success'){ window.location.href = wsmClasses.currentPage; } else { console.error('Failed to remove coach'); }
                 });
             });
         });
@@ -189,7 +189,7 @@
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     body: 'action=gm_delete_class&class_id=' + classId + '&_wpnonce=' + deleteNonce
                 }).then(r => r.text()).then(data => {
-                    if(data === 'success'){ location.reload(); } else { console.error('Failed to delete class'); }
+                    if(data === 'success'){ window.location.href = wsmClasses.currentPage; } else { console.error('Failed to delete class'); }
                 });
             }
         });

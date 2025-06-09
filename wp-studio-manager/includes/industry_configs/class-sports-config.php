@@ -10,6 +10,11 @@ class Sports_Config {
             'features'          => ['skill_tracking'],
             'required_fields'   => ['emergency_contact'],
             'integrations'      => [],
+            'custom_fields'     => [
+                'participant' => [
+                    'emergency_contact' => ['label' => 'Emergency Contact', 'type' => 'text', 'required' => true],
+                ],
+            ],
         ];
     }
 }
