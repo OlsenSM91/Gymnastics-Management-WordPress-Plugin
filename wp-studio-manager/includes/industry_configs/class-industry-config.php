@@ -27,6 +27,14 @@ class Industry_Config {
             'required_fields'   => ['experience_level', 'materials_owned'],
             'integrations'      => ['portfolio_sites', 'social_sharing'],
         ],
+        'gymnastics' => [
+            'participant_label' => 'Athlete',
+            'session_label'     => 'Practice',
+            'instructor_label'  => 'Coach',
+            'features'          => ['skill_tracking', 'meet_management', 'routine_videos'],
+            'required_fields'   => ['usag_number', 'emergency_contact', 'medical_conditions'],
+            'integrations'      => ['scoring_systems', 'competition_registration'],
+        ],
     ];
 
     public static function get_config($industry = null) {
