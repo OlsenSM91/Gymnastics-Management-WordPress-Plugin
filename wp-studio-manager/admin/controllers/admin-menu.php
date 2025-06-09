@@ -17,24 +17,43 @@ add_action('admin_menu', 'gm_add_admin_menu');
 
 // Function to display the dashboard page with actionable tiles
 function gm_admin_page() {
-    echo '<h1>Studio Management Dashboard</h1>';
-    echo '<p>Welcome to the WP Studio Manager plugin. Use the menu on the left to navigate through the features.</p>';
-
-
-    $actions = [
-        'clear_athletes' => 'Clear Athletes',
-        'clear_parents' => 'Clear Parents',
-        'clear_coaches' => 'Clear Coaches',
-        'clear_classes' => 'Clear Classes',
-        'clear_all' => 'Clear All'
-    ];
-
-    $url_base = admin_url('admin.php?page=gym-management&action=');
-
-    echo '<div class="gm-dashboard-tiles">';
-    foreach ($actions as $action => $label) {
-        echo '<a href="' . $url_base . $action . '" class="gm-dashboard-tile">' . $label . '</a>';
+    if (!current_user_can('manage_options')) {
+        return;
     }
+
+    $tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
+
+    echo '<div class="wrap">';
+    echo '<h1>' . esc_html__('Studio Management Dashboard', 'wsm') . '</h1>';
+
+    echo '<nav class="nav-tab-wrapper">';
+    $tabs = [
+        'dashboard' => __('Dashboard', 'wsm'),
+        'industry'  => __('Industry', 'wsm'),
+        'reports'   => __('Reports', 'wsm'),
+        'settings'  => __('Settings', 'wsm'),
+    ];
+    foreach ($tabs as $slug => $label) {
+        $active = ($slug === $tab) ? ' nav-tab-active' : '';
+        $url    = esc_url(admin_url('admin.php?page=gym-management&tab=' . $slug));
+        echo '<a href="' . $url . '" class="nav-tab' . $active . '">' . esc_html($label) . '</a>';
+    }
+    echo '</nav>';
+
+    switch ($tab) {
+        case 'industry':
+            include WSM_PLUGIN_DIR . 'admin/partials/dashboard/industry-dashboard.php';
+            break;
+        case 'reports':
+            include WSM_PLUGIN_DIR . 'admin/partials/dashboard/reports-dashboard.php';
+            break;
+        case 'settings':
+            include WSM_PLUGIN_DIR . 'admin/partials/dashboard/settings-dashboard.php';
+            break;
+        default:
+            include WSM_PLUGIN_DIR . 'admin/partials/dashboard/main-dashboard.php';
+    }
+
     echo '</div>';
 }
 
