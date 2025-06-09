@@ -1,6 +1,6 @@
 # WP Studio Manager
 
-WP Studio Manager is a modular WordPress plugin for managing classes, instructors and clients across many industries. The project began as a gymnastics management tool but now targets a wide range of studios including fitness, education, creative workshops and wellness centers. The plugin provides an extensible architecture with a flexible industry configuration system.
+WP Studio Manager is a modular WordPress plugin for managing classes, instructors and clients across many industries. The project began as a gymnastics management tool but now targets a wide range of studios including fitness, education, creative workshops, gymnastics programs and wellness centers. The plugin provides an extensible architecture with a flexible industry configuration system that adapts terminology for gyms, private trainers and studios alike.
 
 ## Project Goals
 - Replace expensive SaaS solutions like iClassPro and MindBody with a WordPress based alternative.
