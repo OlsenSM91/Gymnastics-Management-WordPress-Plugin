@@ -22,6 +22,12 @@ class Industry_Config {
             'features'          => ['skill_tracking', 'meet_management', 'routine_videos'],
             'required_fields'   => ['usag_number', 'emergency_contact', 'medical_conditions'],
             'integrations'      => ['scoring_systems', 'competition_registration'],
+            'custom_fields'     => [
+                'participant' => [
+                    'usag_number'       => ['label' => 'USAG Number', 'type' => 'text', 'required' => true],
+                    'medical_conditions' => ['label' => 'Medical Conditions', 'type' => 'textarea'],
+                ],
+            ],
             ],
         ];
     }

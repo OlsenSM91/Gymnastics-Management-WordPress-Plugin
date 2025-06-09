@@ -1,18 +1,24 @@
 <?php
 // Add admin menu
+use WSM\Includes\Industry_Configs\Industry_Config;
+
 function gm_add_admin_menu() {
-    add_menu_page('Gymnastics Management', 'Gym Management', 'manage_options', 'gym-management', 'gm_admin_page', 'dashicons-groups', 6);
-    add_submenu_page('gym-management', 'Coaches', 'Coaches', 'manage_options', 'gym-coaches', 'gm_coaches_page');
-    add_submenu_page('gym-management', 'Parents', 'Athletes', 'manage_options', 'gym-parents', 'gm_parents_page');
+    $instructor  = Industry_Config::get_label('instructor_label', true);
+    $participant = Industry_Config::get_label('participant_label', true);
+    $session     = Industry_Config::get_label('session_label', true);
+
+    add_menu_page('Studio Management', 'Studio Management', 'manage_options', 'gym-management', 'gm_admin_page', 'dashicons-groups', 6);
+    add_submenu_page('gym-management', $instructor, $instructor, 'manage_options', 'gym-coaches', 'gm_coaches_page');
+    add_submenu_page('gym-management', $participant, $participant, 'manage_options', 'gym-parents', 'gm_parents_page');
     add_submenu_page('gym-management', 'Levels', 'Levels', 'manage_options', 'gym-levels', 'gm_levels_page');
-    add_submenu_page('gym-management', 'Classes', 'Classes', 'manage_options', 'gym-classes', 'gm_classes_page');
+    add_submenu_page('gym-management', $session, $session, 'manage_options', 'gym-classes', 'gm_classes_page');
 }
 add_action('admin_menu', 'gm_add_admin_menu');
 
 // Function to display the dashboard page with actionable tiles
 function gm_admin_page() {
-    echo '<h1>Gymnastics Management Dashboard</h1>';
-    echo '<p>Welcome to the Gymnastics Management plugin. Use the menu on the left to navigate through the features.</p>';
+    echo '<h1>Studio Management Dashboard</h1>';
+    echo '<p>Welcome to the WP Studio Manager plugin. Use the menu on the left to navigate through the features.</p>';
 
 
     $actions = [
@@ -130,7 +136,8 @@ function gm_enqueue_admin_scripts($hook_suffix) {
             wp_localize_script('gm-classes-script', 'wsmClasses', array(
                 'adminPostUrl' => admin_url('admin-post.php'),
                 'adminAjaxUrl' => admin_url('admin-ajax.php'),
-                'deleteNonce'  => wp_create_nonce('delete_class_nonce')
+                'deleteNonce'  => wp_create_nonce('delete_class_nonce'),
+                'currentPage'  => esc_url_raw($_SERVER['REQUEST_URI'])
             ));
         }
     }

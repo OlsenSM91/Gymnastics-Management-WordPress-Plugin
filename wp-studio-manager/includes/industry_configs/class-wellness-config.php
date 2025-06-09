@@ -10,6 +10,11 @@ class Wellness_Config {
             'features'          => [],
             'required_fields'   => ['health_conditions'],
             'integrations'      => [],
+            'custom_fields'     => [
+                'participant' => [
+                    'health_conditions' => ['label' => 'Health Conditions', 'type' => 'textarea'],
+                ],
+            ],
         ];
     }
 }

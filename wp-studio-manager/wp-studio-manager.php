@@ -13,21 +13,22 @@ define("WSM_PLUGIN_DIR", plugin_dir_path(__FILE__));
 define("WSM_PLUGIN_URL", plugin_dir_url(__FILE__));
 
 // Autoloader and core classes
-require_once WSM_PLUGIN_DIR . 'core/class-gm-loader.php';
-require_once WSM_PLUGIN_DIR . 'core/class-gm-activator.php';
-require_once WSM_PLUGIN_DIR . 'core/class-gm-deactivator.php';
-require_once WSM_PLUGIN_DIR . 'core/class-gm-plugin.php';
+require_once WSM_PLUGIN_DIR . 'core/class-wsm-loader.php';
+require_once WSM_PLUGIN_DIR . 'core/class-wsm-activator.php';
+require_once WSM_PLUGIN_DIR . 'core/class-wsm-deactivator.php';
+require_once WSM_PLUGIN_DIR . 'core/class-wsm-plugin.php';
+require_once WSM_PLUGIN_DIR . 'admin/controllers/class-participants-controller.php';
 
-use WSM\Core\GM_Loader;
-use WSM\Core\GM_Activator;
-use WSM\Core\GM_Deactivator;
-use WSM\Core\GM_Plugin;
+use WSM\Core\WSM_Loader;
+use WSM\Core\WSM_Activator;
+use WSM\Core\WSM_Deactivator;
+use WSM\Core\WSM_Plugin;
 use WSM\Includes\Industry_Configs\Industry_Config;
 
-GM_Loader::register();
+WSM_Loader::register();
 
-register_activation_hook(__FILE__, array('WSM\\Core\\GM_Activator', 'activate'));
-register_deactivation_hook(__FILE__, array('WSM\\Core\\GM_Deactivator', 'deactivate'));
+register_activation_hook(__FILE__, array('WSM\\Core\\WSM_Activator', 'activate'));
+register_deactivation_hook(__FILE__, array('WSM\\Core\\WSM_Deactivator', 'deactivate'));
 
 // Function to create the custom role for coaches
 function gm_add_coach_role() {
@@ -168,5 +169,5 @@ function gm_register_custom_post_types() {
 add_action('init', 'gm_register_custom_post_types');
 
 // Run plugin
-GM_Plugin::instance()->run();
+WSM_Plugin::instance()->run();
 ?>

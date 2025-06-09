@@ -22,6 +22,18 @@ class Fitness_Config {
             ],
             'required_fields'   => ['emergency_contact', 'health_conditions'],
             'integrations'      => ['heart_rate_monitors', 'nutrition_tracking'],
+            'custom_fields'     => [
+                'participant' => [
+                    'emergency_contact'  => ['label' => 'Emergency Contact', 'type' => 'text', 'required' => true],
+                    'health_conditions'  => ['label' => 'Health Conditions', 'type' => 'textarea'],
+                ],
+                'session' => [
+                    'difficulty' => ['label' => 'Difficulty', 'type' => 'select', 'options' => ['Beginner','Intermediate','Advanced']],
+                ],
+                'instructor' => [
+                    'certifications' => ['label' => 'Certifications', 'type' => 'textarea'],
+                ],
+            ],
         ];
     }
 }
