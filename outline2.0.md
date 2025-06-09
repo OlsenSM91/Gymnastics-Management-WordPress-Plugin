@@ -414,28 +414,28 @@ $creative_config = [
   - [x] Guardian management (parents/emergency contacts)
 
 ### 2.2 Advanced Scheduling System
-- [ ] **Resource Management**:
-  - [ ] Room/studio/space booking
-  - [ ] Equipment scheduling
-  - [ ] Instructor availability
-  - [ ] Capacity management
-- [ ] **Scheduling Flexibility**:
-  - [ ] Recurring sessions with exceptions
-  - [ ] Drop-in vs. enrolled sessions
-  - [ ] Waitlist management
-  - [ ] Session substitutions and cancellations
+- [x] **Resource Management**:
+  - [x] Room/studio/space booking
+  - [x] Equipment scheduling
+  - [x] Instructor availability
+  - [x] Capacity management
+- [x] **Scheduling Flexibility**:
+  - [x] Recurring sessions with exceptions
+  - [x] Drop-in vs. enrolled sessions
+  - [x] Waitlist management
+  - [x] Session substitutions and cancellations
 
 ### 2.3 Industry-Specific Features
-- [ ] **Fitness Studios**:
-  - [ ] Body composition tracking
-  - [ ] Workout plan assignment
-  - [ ] Progress photo uploads
-  - [ ] Membership freeze/hold options
-- [ ] **Educational Centers**:
-  - [ ] Skill level assessments
-  - [ ] Practice time logging
-  - [ ] Recital/performance management
-  - [ ] Parent communication portal
+- [x] **Fitness Studios**:
+  - [x] Body composition tracking
+  - [x] Workout plan assignment
+  - [x] Progress photo uploads
+  - [x] Membership freeze/hold options
+- [x] **Educational Centers**:
+  - [x] Skill level assessments
+  - [x] Practice time logging
+  - [x] Recital/performance management
+  - [x] Parent communication portal
 
 ---
 
